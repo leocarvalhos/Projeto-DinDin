@@ -1,0 +1,18 @@
+@use "./variables"
+
+@mixin flex($flex_direction, $justify_content, $align_items)
+    display: flex
+    flex-direction: $flex_direction
+    justify-content: $justify_content
+    align-items: $align_items
+
+@mixin fontStyle($font-family, $font-style, $font-weight, $font-size, $line-height)
+    font-family: $font-family
+    font-style: $font-style
+    font-weight: $font-weight
+    font-size: $font-size
+    line-height: $line-height
+
+@mixin effectButton($value )
+    transform: scale($value)
+    background: variables.$violet-hover
