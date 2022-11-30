@@ -7,7 +7,7 @@ import Link from 'next/link';
 export default function SignIn() {
 	return (
 		<main className={styles.main}>
-			<Image src={Logo} className={styles.logo} alt='logo' />
+			<Image priority src={Logo} className={styles.logo} alt='logo' />
 			<section className={styles.sectionOne}>
 				<h1>
 					Controle suas <span>finanças</span>, sem planilha chata.

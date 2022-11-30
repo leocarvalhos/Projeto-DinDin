@@ -22,7 +22,7 @@ export default function FormIN() {
 
 	return (
 		<main className={styles.main}>
-			<Image src={Logo} alt='Logo' className={styles.logo} />
+			<Image priority src={Logo} alt='Logo' className={styles.logo} />
 			<h2>Conecte-se</h2>
 			<FormControl isInvalid={error}>
 				<FormLabel style={{ fontSize: '1.4rem' }}>Email</FormLabel>
@@ -33,9 +33,9 @@ export default function FormIN() {
 				<Input className={styles.input} type={!show ? 'password' : 'text'} name='password' value={input.password} onChange={handleInputChange} />
 				{error && <FormErrorMessage>Password is required.</FormErrorMessage>}
 				{!show ? (
-					<Image src={EyeClosed} alt='eye-closed' className={styles.eye} onClick={() => setShow(true)} width={35} height={35} />
+					<Image priority src={EyeClosed} alt='eye-closed' className={styles.eye} onClick={() => setShow(true)} width={35} height={35} />
 				) : (
-					<Image src={EyeOpen} alt='eye-open' className={styles.eye} onClick={() => setShow(false)} width={35} height={35} />
+					<Image priority src={EyeOpen} alt='eye-open' className={styles.eye} onClick={() => setShow(false)} width={35} height={35} />
 				)}
 				<Button className={styles.btn}>Enviar</Button>
 				<Link href={'/sign-up'}>
