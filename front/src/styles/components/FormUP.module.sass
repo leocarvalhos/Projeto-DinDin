@@ -1,0 +1,103 @@
+@use '../variables'
+@use "../mixin"
+
+.main
+    width: 100vw
+    height: 100vh
+    background: variables.$white
+
+    section
+        padding: 80px 30px
+        @include mixin.flex(column,start,center)
+        width: 100%
+
+        h2
+            margin-bottom: 50px
+            @include mixin.fontStyle(variables.$font-default, normal, 500,2.8rem, 3.3rem)
+            color: variables.$violet
+
+        .input
+            margin-bottom: 35px
+            height: 50px
+            font-size: 1.7rem
+            position: relative
+
+        .eyePass
+            position: absolute
+            bottom: 255px
+            right: 15px
+
+        .eyeCPass
+            position: absolute
+            bottom: 145px
+            right: 15px
+
+        .btn
+            width: 100%
+            height: 45px
+            @include mixin.fontStyle(variables.$font-default, normal, 700, 1.4rem, 1.7rem)
+            background-color: variables.$violet
+            color: variables.$white
+            margin-top: 30px
+            margin-bottom: 25px
+
+        .btn:hover
+            @include mixin.effectButton(variables.$value)
+
+        .link
+            color: variables.$violet
+            text-decoration: underline
+            cursor: pointer
+
+@media screen and (min-width: 768px)
+    .main
+
+        section
+            height: 100vh
+            padding: 80px 60px
+            @include mixin.flex(column,center,center)
+
+            h2
+                @include mixin.fontStyle(variables.$font-default,normal, 500, 3.6rem, 4rem)
+
+            .input
+                height: 60px
+                font-size: 2.1rem
+
+            .eyePass
+                top: 287px
+
+            .eyeCPass
+                bottom: 150px
+
+@media screen and (min-width: 1024px)
+
+    .main
+        width: 515px
+        height: 80vh
+        background-color: variables.$white
+
+        section
+            padding: 30px 40px
+            height: 100%
+
+            h2
+                @include mixin.fontStyle(variables.$font-default, normal, 500,2.4rem, 2.8rem)
+                color: variables.$violet
+                margin-bottom: 25px
+
+            .input
+                margin-bottom: 25px
+                height: 45px
+                font-size: 1.6rem
+
+            .eyePass
+                top: 225px
+            .eyeCPass
+                bottom: 130px
+
+            .btn
+                margin-bottom: 20px
+
+            .link
+                cursor: pointer

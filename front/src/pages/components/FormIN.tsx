@@ -21,7 +21,7 @@ export default function FormIN() {
 
 	return (
 		<main className={styles.main}>
-			<h2>Login</h2>
+			<h2>Conecte-se</h2>
 			<FormControl isInvalid={error}>
 				<FormLabel style={{ fontSize: '1.4rem' }}>Email</FormLabel>
 				<Input className={styles.input} type='email' name='email' value={input.email} onChange={handleInputChange} />
@@ -35,7 +35,7 @@ export default function FormIN() {
 				) : (
 					<Image src={EyeOpen} alt='eye-open' className={styles.eye} onClick={() => setShow(false)} width={35} height={35} />
 				)}
-				<Button className={styles.btn}>Entrar</Button>
+				<Button className={styles.btn}>Enviar</Button>
 			</FormControl>
 		</main>
 	);
