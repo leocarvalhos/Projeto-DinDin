@@ -1,0 +1,11 @@
+@use "../variables"
+@use "../mixin"
+
+.container
+    height: 15vh
+    width: 100%
+    background: linear-gradient(to right, variables.$light-blue, variables.$violet)
+    @include mixin.flex(row, end, start)
+    .menu
+        margin-top: 30px
+        margin-right: 30px
