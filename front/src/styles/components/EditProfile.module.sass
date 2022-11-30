@@ -1,0 +1,26 @@
+@use '../mixin'
+@use "../variables"
+
+.container
+    width: 100vw
+    height: 100vh
+    position: relative
+    background: white
+
+    section
+        width: 100vw
+        height: 100vh
+        background-color: red
+        position: absolute
+        top: 0
+        left: 0
+        z-index: 1
+    .x
+        position: absolute
+        top: 30px
+        right: 40px
+
+    div
+        h1
+            @include mixin.fontStyle(variables.$font-default, normal, 700, 3rem, 4rem)
+            letter-spacing: .3rem

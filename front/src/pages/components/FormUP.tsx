@@ -5,7 +5,8 @@ import { ChangeEvent, useState } from 'react';
 import Image from 'next/image';
 import EyeOpen from '../../../public/images/eye-open.svg';
 import EyeClosed from '../../../public/images/eye-closed.svg';
-
+import LogoViolet from '../../../public/images/logoViolet.svg';
+import LogoDefault from '../../../public/images/logo.svg';
 import IFormUP from '../../interfaces/IFormUP.type';
 import Link from 'next/link';
 export default function FormUP() {
@@ -27,6 +28,8 @@ export default function FormUP() {
 		<main className={styles.main}>
 			<section>
 				<h2>Cadastre-se</h2>
+				<Image src={LogoViolet} className={styles.logo} alt='logo' />
+				<Image src={LogoDefault} className={styles.logoDefault} alt='logo' />
 				<FormControl isInvalid={error}>
 					<FormLabel style={{ fontSize: '1.4rem' }}>Nome</FormLabel>
 					<Input className={styles.input} type='text' name='name' value={input.name} onChange={handleInputChange} />

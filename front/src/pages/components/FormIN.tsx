@@ -4,8 +4,9 @@ import { ChangeEvent, useState } from 'react';
 import Image from 'next/image';
 import EyeOpen from '../../../public/images/eye-open.svg';
 import EyeClosed from '../../../public/images/eye-closed.svg';
-
+import Logo from '../../../public/images/logoViolet.svg';
 import IForm from '../../interfaces/IForm.type';
+import Link from 'next/link';
 export default function FormIN() {
 	const [error, setError] = useState<boolean>(false);
 	const [message, setMessage] = useState<string>('');
@@ -21,6 +22,7 @@ export default function FormIN() {
 
 	return (
 		<main className={styles.main}>
+			<Image src={Logo} alt='Logo' className={styles.logo} />
 			<h2>Conecte-se</h2>
 			<FormControl isInvalid={error}>
 				<FormLabel style={{ fontSize: '1.4rem' }}>Email</FormLabel>
@@ -36,6 +38,9 @@ export default function FormIN() {
 					<Image src={EyeOpen} alt='eye-open' className={styles.eye} onClick={() => setShow(false)} width={35} height={35} />
 				)}
 				<Button className={styles.btn}>Enviar</Button>
+				<Link href={'/sign-up'}>
+					<Button className={styles.btnRegister}>Cadastre-se</Button>
+				</Link>
 			</FormControl>
 		</main>
 	);
