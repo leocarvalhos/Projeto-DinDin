@@ -24,7 +24,7 @@ export default function FormEditProfile({ setShowModal }: any) {
 	}
 
 	return (
-		<div className={styles.container}>
+		<div className={styles.conteudo}>
 			<FormControl isInvalid={error} className={styles.form}>
 				<Image src={X} alt='x' className={styles.x} priority onClick={() => setShowModal(false)} />
 				<h1>Editar Perfil</h1>
