@@ -7,7 +7,7 @@ import styles from '../../styles/components/Filter.module.sass';
 import { useState } from 'react';
 export default function Filter() {
 	const [selected, setSelected] = useState<boolean>(false);
-	const [showCard, setShowCard] = useState<boolean>(false);
+	const [showCard, setShowCard] = useState<boolean>(true);
 
 	return (
 		<div className={styles.container}>
