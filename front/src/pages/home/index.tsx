@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styles from '../../styles/components/Home.module.sass';
+import Filter from '../components/Filter';
 import FormEditProfile from '../components/FormEditProfile';
 import Header from '../components/Header';
 export default function Home() {
@@ -13,6 +14,8 @@ export default function Home() {
 						<FormEditProfile setShowModal={setShowModal} />
 					</div>
 				)}
+
+				<Filter />
 			</main>
 		</>
 	);

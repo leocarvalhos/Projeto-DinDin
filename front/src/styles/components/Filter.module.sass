@@ -1,0 +1,110 @@
+@use '../variables'
+@use '../mixin'
+
+.container
+
+    .btnFilter
+        background: #FAFAFA
+        box-shadow: 0px 2px 11px rgba(0, 0, 0, 0.1)
+        border-radius: 10px
+        width: 80px
+        height: 30px
+        @include mixin.flex(row, space-evenly, center)
+        @include mixin.fontStyle('Rubik', normal, 700, 1.2rem, 1.4rem)
+        color: #000000
+    div
+        .card
+            width: 100%
+            margin-top: 25px
+            background: #FAFAFA
+            box-shadow: 0px 2px 11px rgba(0, 0, 0, 0.1)
+            border-radius: 10px
+
+            .cardHeader
+                .text
+                    @include mixin.fontStyle(variables.$font-default, normal,500,1.35rem, 1.4rem)
+                    color: #B9B9B9
+
+            .cardBody
+                padding-top: 5px
+                display: flex
+                flex-wrap: wrap
+                gap: 10px
+
+                .btnInactive
+                    background: #FAFAFA
+                    box-shadow: 0px 2px 11px rgba(0, 0, 0, 0.1)
+                    border-radius: 10px
+                    display: flex
+                    gap: 5px
+
+                .btnActive
+                    background: #7978D9
+                    box-shadow: 0px 2px 11px rgba(0, 0, 0, 0.1)
+                    border-radius: 10px
+                    display: flex
+                    gap: 5px
+                    color: #fff
+
+                .btnInactive:hover
+                    background: #7978D9
+                    color: #fff
+                    box-shadow: 0px 2px 11px rgba(0, 0, 0, 0.1)
+                    border-radius: 10px
+
+            .cardFooter
+                display: flex
+                padding: 5px 10px 10px 10px
+                display: flex
+                gap: 10px
+
+                button
+                    background: #FAFAFA
+                    box-shadow: 0px 2px 11px rgba(0, 0, 0, 0.1)
+                    border-radius: 10px
+
+                button:hover
+                    background: #7978D9
+                    color: #fff
+                    box-shadow: 0px 2px 11px rgba(0, 0, 0, 0.1)
+                    border-radius: 10px
+
+@media screen and (min-width: 1024px)
+    .container
+        padding: 20px
+
+        .btnFilter
+            width: 110px
+            height: 35px
+            font-size: 1.3rem
+
+            img
+                width: 20px
+                height: 20px
+        div
+            .card
+                width: 60%
+
+                .cardHeader
+
+                    .text
+                        @include mixin.fontStyle(variables.$font-default, normal, 500, 1.6rem, 1.8rem)
+
+                .cardBody
+
+                    button
+
+                        height: 40px
+                        @include mixin.fontStyle(variables.$font-default, normal, 500, 1.3rem, 1.4rem)
+
+                .cardFooter
+                    display: flex
+                    padding: 5px 10px 20px 10px
+                    display: flex
+                    gap: 10px
+
+                    button
+                        @include mixin.fontStyle(variables.$font-default, normal, 500, 1.3rem, 1.4rem)
+                        width: 110px
+                        height: 35px
+                        font-size: 1.3rem

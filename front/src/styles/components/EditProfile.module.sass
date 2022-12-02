@@ -13,6 +13,7 @@
         background: variables.$white
         padding: 60px 35px 20px 35px
         @include mixin.flex(column, center,flex-start)
+        z-index: 1
 
         .x
             position: absolute
@@ -60,6 +61,8 @@
     .conteudo
         background: rgba(61, 61, 61, 0.48)
         @include mixin.flex(row, center,center)
+        position: relative
+        z-index: 1
 
         .form
             width: 520px
