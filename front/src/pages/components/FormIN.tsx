@@ -37,7 +37,7 @@ export default function FormIN() {
 				) : (
 					<Image priority src={EyeOpen} alt='eye-open' className={styles.eye} onClick={() => setShow(false)} width={35} height={35} />
 				)}
-				<Button className={styles.btn}>Enviar</Button>
+				<Button className={styles.btn}>Entrar</Button>
 				<Link href={'/sign-up'}>
 					<Button className={styles.btnRegister}>Cadastre-se</Button>
 				</Link>

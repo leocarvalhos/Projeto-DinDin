@@ -21,7 +21,7 @@ export default function Home() {
 				)}
 				{showCoin && (
 					<div className={styles.modal}>
-						<Resume setShowCoin={setShowCoin} setshowAddReg={setShowAddReg} />
+						<Resume setShowCoin={setShowCoin} setShowAddReg={setShowAddReg} />
 					</div>
 				)}
 				{showAddReg && (

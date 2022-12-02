@@ -55,7 +55,7 @@ export default function FormUP() {
 					) : (
 						<Image priority src={EyeOpen} alt='eye-open' className={styles.eyeCPass} onClick={() => setShow(false)} width={35} height={35} />
 					)}
-					<Button className={styles.btn}>Enviar</Button>
+					<Button className={styles.btn}>Cadastrar</Button>
 				</FormControl>
 				<Link href='/' className={styles.link}>
 					Já tem cadastro? Clique aqui!
