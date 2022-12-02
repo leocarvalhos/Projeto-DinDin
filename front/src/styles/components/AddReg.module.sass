@@ -1,2 +1,11 @@
 @use "../mixin"
 @use "../variables"
+
+.container
+    width: 100%
+    min-height: 100vh
+    background: variables.$white
+    @include mixin.flex(row, flex-start, center)
+    position: relative
+    z-index: 1
+    padding: 40px
