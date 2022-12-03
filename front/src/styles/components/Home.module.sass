@@ -2,7 +2,7 @@
 @use "../mixin"
 
 .main
-    width: 100vw
+    max-width: 100vw
     height: calc( 100vh - 15vh + 4vh)
     background: variables.$white
     margin-top: -4vh
@@ -15,3 +15,13 @@
         position: absolute
         top: 0
         left: 0
+
+@media screen and ( min-width:1023px )
+    .main
+        padding: 50px 5px 0px 5px
+
+        .divResume
+            display: flex
+            width: 100%
+            gap: 90px
+            justify-content: center
