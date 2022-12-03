@@ -3,4 +3,5 @@ export interface IFormReg {
 	category: string;
 	date: Date;
 	description: string;
+	type: string;
 }
