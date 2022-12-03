@@ -1,5 +1,6 @@
 import { Button, FormControl, FormErrorMessage, FormLabel, Input, Select } from '@chakra-ui/react';
 import { ChangeEvent, useState } from 'react';
+import InputMask from 'react-input-mask';
 import { IFormReg } from '../../interfaces/IFormReg.type';
 import styles from '../../styles/components/AddReg.module.sass';
 
@@ -23,7 +24,7 @@ export default function FormAddReg({ setShowAddReg }: any) {
 	function handlerInputType(e: any) {
 		setInput({ ...input, [e.target.name]: e.target.value });
 	}
-	console.log(input);
+
 	return (
 		<div className={styles.container}>
 			<main>
@@ -53,7 +54,7 @@ export default function FormAddReg({ setShowAddReg }: any) {
 					{error && <FormErrorMessage>Valor é obrigatório!</FormErrorMessage>}
 
 					<FormLabel style={{ fontSize: '1.4rem' }}>Categoria</FormLabel>
-					<Select placeholder='Seleciona a categoria' style={{ fontSize: '1.4rem' }} onClick={handlerInputType} name='category'>
+					<Select placeholder='Seleciona a categoria' style={{ fontSize: '1.4rem', display: 'flex' }} onClick={handlerInputType} name='category'>
 						<option value='option1'>Option 1</option>
 						<option value='option2'>Option 2</option>
 						<option value='option3'>Option 3</option>
@@ -61,12 +62,11 @@ export default function FormAddReg({ setShowAddReg }: any) {
 					{error && <FormErrorMessage>Categoria é obrigatório!</FormErrorMessage>}
 
 					<FormLabel style={{ fontSize: '1.4rem' }}>Data</FormLabel>
-					<Input className={styles.input} id='3' name='date' type='text' onChange={handleInputChange} />
+					<Input type='date' id='start' name='trip-start' min='2000-01-01' max='3000-12-31' onChange={handleInputChange} />
 					{error && <FormErrorMessage>Data é obrigatório!</FormErrorMessage>}
 
 					<FormLabel style={{ fontSize: '1.4rem' }}>Descrição</FormLabel>
 					<Input className={styles.input} type='text' id='4' name='description' onChange={handleInputChange} />
-					{error && <FormErrorMessage>Email is required.</FormErrorMessage>}
 
 					<Button className={styles.btn}>Confirmar</Button>
 				</FormControl>

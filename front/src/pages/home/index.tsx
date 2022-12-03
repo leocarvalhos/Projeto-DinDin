@@ -6,6 +6,7 @@ import FormEditProfile from '../components/FormEditProfile';
 import Header from '../components/Header';
 import Resume from '../components/Resume';
 import ResumeDesk from '../components/ResumeDesk';
+import Table from '../components/Table';
 export default function Home() {
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [showCoin, setShowCoin] = useState<boolean>(false);
@@ -32,7 +33,10 @@ export default function Home() {
 				)}
 
 				<div className={styles.divResume}>
-					<Filter />
+					<div className={styles.filterTable}>
+						<Filter />
+						<Table />
+					</div>
 					<ResumeDesk setShowAddReg={setShowAddReg} />
 				</div>
 			</main>

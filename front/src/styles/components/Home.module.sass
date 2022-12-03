@@ -3,7 +3,7 @@
 
 .main
     max-width: 100vw
-    height: calc( 100vh - 15vh + 4vh)
+    min-height: calc( 100vh - 15vh + 4vh)
     background: variables.$white
     margin-top: -4vh
     border-top-left-radius: 30px
@@ -16,12 +16,28 @@
         top: 0
         left: 0
 
+    .divResume
+        width: 100%
+
+        .filterTable
+            width: 100%
+
+            table
+                width: 100%
+
+@media (min-width: 667px) and (max-width: 914px)
+    .main
+        margin-top: -8vh
+
 @media screen and ( min-width:1023px )
     .main
         padding: 50px 5px 0px 5px
-
+        width: 100%
         .divResume
             display: flex
             width: 100%
-            gap: 90px
+            gap: 40px
             justify-content: center
+
+            .filterTable
+                width: 70%
