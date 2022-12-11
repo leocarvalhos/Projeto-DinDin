@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = require("express");
+var CategoryController_1 = require("./controllers/CategoryController");
+var TransactionController_1 = require("./controllers/TransactionController");
+var UserController_1 = require("./controllers/UserController");
+var authMiddleware_1 = __importDefault(require("./middlewares/authMiddleware"));
+var routes = (0, express_1.Router)();
+routes.post('/users', new UserController_1.UserController().cadaster);
+routes.post('/login', new UserController_1.UserController().login);
+routes.use(authMiddleware_1.default);
+routes.post('/transaction', new TransactionController_1.TransactionController().createTransaction);
+routes.put('/users', new UserController_1.UserController().updateUser);
+routes.get('/users', new UserController_1.UserController().user);
+routes.get('/categorys', new CategoryController_1.CategoryController().categorys);
+routes.get('/transaction', new TransactionController_1.TransactionController().listTransactions);
+exports.default = routes;
