@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import moment from 'moment'
+import { userInfo } from 'os'
 import { Any, ILike } from 'typeorm'
 import { AppDataSource } from '../data-source'
 import { Category } from '../entities/Category'
@@ -27,18 +28,15 @@ export class TransactionController {
         if (type !== 'entrada' && type !== 'saida') return res.status(400).json({ message: "Apenas entrada e saída são tipos validos!" })
 
         try {
-
             const response = await transactionRepository.create({
                 description,
                 value,
                 date: formatDate(date),
-                category_id: category_id,
-                user_id: id,
+                category: category_id,
+                user: id,
                 type,
             })
-
             transactionRepository.save(response)
-
             return res.status(201).json(response)
         } catch (error) {
             return res.status(500).json(error)
@@ -46,32 +44,48 @@ export class TransactionController {
     }
 
     async listTransactions(req: Request, res: Response) {
-        const { id }: any = req.user.id
-        const value: number | string | null | undefined | Array<any> | object | Partial<User> = 1
+        const { id }: any = req.user
+
         const { filter }: any = req.query
         try {
             if (filter) {
                 const response = await transactionRepository.find({
-                    relations: {
-                        category_id: true,
-
+                    select: {
+                        user: {
+                            id: true
+                        }
                     },
-                    // where: {
-                    //     user_id: id,
-                    //     category_id: {
-                    //         description: Any(filter)
-                    //     }
-                    // },
+                    relations: {
+                        category: true,
+                        user: true
+                    },
+                    where: {
+                        user: {
+                            id
+                        },
+                        category: {
+                            description: Any(filter)
+                        }
+                    },
                 })
                 return res.status(200).json(response)
+
             } else {
                 const response = await transactionRepository.find({
-
+                    select: {
+                        user: {
+                            id: true
+                        }
+                    },
+                    relations: {
+                        category: true,
+                        user: true
+                    },
                     where: {
-                        user_id: id
+                        user: {
+                            id,
+                        }
                     }
-
-
                 })
                 return res.status(200).json(response)
             }
@@ -81,20 +95,28 @@ export class TransactionController {
     }
 
     async transactionId(req: Request, res: Response) {
-
-        const { id: idUser }: any = req.user
+        const { id: idUser } = req.user
         const { id }: any = req.params
-
+        console.log(idUser, id)
 
         try {
             const response = await transactionRepository.find({
+                select: {
+                    user: {
+                        id: true
+                    }
+                },
                 where: {
-                    user_id: idUser,
-                    id
+                    user: {
+                        id: idUser
+                    },
+                    id: id
                 },
                 relations: {
-                    category_id: true,
-                },
+                    category: true,
+                    user: true
+                }
+
             })
             return res.status(200).json(response)
         } catch (error) {
@@ -112,12 +134,12 @@ export class TransactionController {
                 return res.status(400).json({ message: "Todos os campos obrigatórios devem ser informados." })
             }
 
-            await transactionRepository.update({ id, user_id: idUser }, {
+            await transactionRepository.update({ id, user: idUser }, {
                 description,
                 value,
                 date: formatDate(date),
                 type,
-                category_id: category_id,
+                category: category_id,
             })
 
             return res.status(204).json()
@@ -129,9 +151,7 @@ export class TransactionController {
     async deleteTransaction(req: Request, res: Response) {
         const { id }: any = req.params
         const { id: idUser }: any = req.user
-
         try {
-
             await transactionRepository.createQueryBuilder()
                 .delete()
                 .from(Transaction)
@@ -152,17 +172,24 @@ export class TransactionController {
         const { id }: any = req.user
 
         try {
-            // const profit = await transactionRepository.query(`SELECT SUM(transactions.value) as value_profit FROM transactions WHERE transactions.user_id = $1 AND transactions.type = $2`, [id, 'entrada'])
 
-            // const expenses = await transactionRepository.query(`SELECT SUM(transactions.value) as value_expenses FROM transactions WHERE transactions.user_id = $1 AND transactions.type = $2`, [id, 'saida'])
+            const { profit } = await transactionRepository.createQueryBuilder("transactions")
+                .select("SUM(transactions.value) as profit")
+                .where("transactions.user = :id", { id })
+                .andWhere("transactions.type = :type", { type: 'entrada' })
+                .getRawOne()
 
-            // const balance = Number(profit[0].value_profit) - Number(expenses[0].value_expenses)
-            // const value_profit = profit[0].value_profit
-            // const value_expenses = expenses[0].value_expenses
+            const { expenses } = await transactionRepository.createQueryBuilder("transactions")
+                .select("SUM(transactions.value) as expenses")
+                .where("transactions.user = :id", { id })
+                .andWhere("transactions.type = :type", { type: 'saida' })
+                .getRawOne()
 
-            // return res.status(200).json({ balance, value_profit, value_expenses })
+            const balance = Number(profit) - Number(expenses)
+
+            return res.status(200).json({ profit, expenses, balance })
         } catch (error) {
-            console.log(error)
+
             return res.json(error)
         }
 

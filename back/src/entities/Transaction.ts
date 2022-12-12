@@ -20,13 +20,13 @@ export class Transaction {
     @Column()
     type: string
 
-    @ManyToOne(() => User, (user) => user.user_id)
+    @ManyToOne(() => User, (user) => user.transactions)
     @JoinColumn({ name: 'user_id' })
-    user_id: User
+    user: User
 
 
-    @ManyToOne(() => Category, (category) => category.category_id)
+    @ManyToOne(() => Category, (category) => category.transactions)
     @JoinColumn({ name: "category_id" })
-    category_id: Category
+    category: Category
 
 }

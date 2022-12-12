@@ -16,7 +16,7 @@ export class User {
     @Column()
     password: string
 
-    @OneToMany(() => Transaction, (transaction) => transaction.category_id)
-    user_id: Transaction[]
+    @OneToMany(() => Transaction, (transaction) => transaction.user)
+    transactions: Transaction[]
 
 }

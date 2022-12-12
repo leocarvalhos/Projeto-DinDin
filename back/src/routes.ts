@@ -16,7 +16,7 @@ routes.use(authMiddleware)
 routes.post('/transaction', new TransactionController().createTransaction)
 
 routes.get('/users', new UserController().user)
-routes.get('/categorys', new CategoryController().categorys)
+routes.get('/categories', new CategoryController().categories)
 routes.get('/transaction', new TransactionController().listTransactions)
 routes.get('/transaction/:id', new TransactionController().transactionId)
 routes.get('/extract', new TransactionController().extract)

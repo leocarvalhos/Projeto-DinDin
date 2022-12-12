@@ -10,34 +10,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
-var typeorm_1 = require("typeorm");
-var Transaction_1 = require("./Transaction");
-var User = /** @class */ (function () {
-    function User() {
-    }
-    __decorate([
-        (0, typeorm_1.PrimaryGeneratedColumn)(),
-        __metadata("design:type", Number)
-    ], User.prototype, "id", void 0);
-    __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], User.prototype, "name", void 0);
-    __decorate([
-        (0, typeorm_1.Column)({ unique: true }),
-        __metadata("design:type", String)
-    ], User.prototype, "email", void 0);
-    __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], User.prototype, "password", void 0);
-    __decorate([
-        (0, typeorm_1.OneToMany)(function () { return Transaction_1.Transaction; }, function (transaction) { return transaction.userID; }),
-        __metadata("design:type", Array)
-    ], User.prototype, "userID", void 0);
-    User = __decorate([
-        (0, typeorm_1.Entity)('users')
-    ], User);
-    return User;
-}());
+const typeorm_1 = require("typeorm");
+const Transaction_1 = require("./Transaction");
+let User = class User {
+};
+__decorate([
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    __metadata("design:type", Number)
+], User.prototype, "id", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], User.prototype, "name", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ unique: true }),
+    __metadata("design:type", String)
+], User.prototype, "email", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], User.prototype, "password", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => Transaction_1.Transaction, (transaction) => transaction.user),
+    __metadata("design:type", Array)
+], User.prototype, "transactions", void 0);
+User = __decorate([
+    (0, typeorm_1.Entity)('users')
+], User);
 exports.User = User;

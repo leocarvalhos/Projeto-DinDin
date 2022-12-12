@@ -3,12 +3,12 @@ import { categoryRepository } from '../repositories/categoryRepository'
 
 export class CategoryController {
 
-    async categorys(req: Request, res: Response) {
+    async categories(req: Request, res: Response) {
         try {
-            const categorys = await categoryRepository
-                .createQueryBuilder("categorys").getRawMany()
+            const categories = await categoryRepository
+                .createQueryBuilder("categories").getRawMany()
 
-            return res.status(200).json(categorys)
+            return res.status(200).json(categories)
 
         } catch (error) {
             return res.status(500).json(error)

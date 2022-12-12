@@ -10,45 +10,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Transaction = void 0;
-var typeorm_1 = require("typeorm");
-var Category_1 = require("./Category");
-var User_1 = require("./User");
-var Transaction = /** @class */ (function () {
-    function Transaction() {
-    }
-    __decorate([
-        (0, typeorm_1.PrimaryGeneratedColumn)(),
-        __metadata("design:type", Number)
-    ], Transaction.prototype, "id", void 0);
-    __decorate([
-        (0, typeorm_1.Column)({ type: "text" }),
-        __metadata("design:type", String)
-    ], Transaction.prototype, "description", void 0);
-    __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], Transaction.prototype, "value", void 0);
-    __decorate([
-        (0, typeorm_1.Column)({ type: "timestamp" }),
-        __metadata("design:type", Date)
-    ], Transaction.prototype, "date", void 0);
-    __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], Transaction.prototype, "type", void 0);
-    __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return User_1.User; }, function (user) { return user.id; }),
-        (0, typeorm_1.JoinColumn)({ name: 'user_id' }),
-        __metadata("design:type", User_1.User)
-    ], Transaction.prototype, "userID", void 0);
-    __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return Category_1.Category; }, function (category) { return category.id; }),
-        (0, typeorm_1.JoinColumn)({ name: "category_id" }),
-        __metadata("design:type", Category_1.Category)
-    ], Transaction.prototype, "categoryID", void 0);
-    Transaction = __decorate([
-        (0, typeorm_1.Entity)('transactions')
-    ], Transaction);
-    return Transaction;
-}());
+const typeorm_1 = require("typeorm");
+const Category_1 = require("./Category");
+const User_1 = require("./User");
+let Transaction = class Transaction {
+};
+__decorate([
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    __metadata("design:type", Number)
+], Transaction.prototype, "id", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "text" }),
+    __metadata("design:type", String)
+], Transaction.prototype, "description", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "decimal" }),
+    __metadata("design:type", Number)
+], Transaction.prototype, "value", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ type: "timestamp" }),
+    __metadata("design:type", Date)
+], Transaction.prototype, "date", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Transaction.prototype, "type", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => User_1.User, (user) => user.transactions),
+    (0, typeorm_1.JoinColumn)({ name: 'user_id' }),
+    __metadata("design:type", User_1.User)
+], Transaction.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => Category_1.Category, (category) => category.transactions),
+    (0, typeorm_1.JoinColumn)({ name: "category_id" }),
+    __metadata("design:type", Category_1.Category)
+], Transaction.prototype, "category", void 0);
+Transaction = __decorate([
+    (0, typeorm_1.Entity)('transactions')
+], Transaction);
 exports.Transaction = Transaction;

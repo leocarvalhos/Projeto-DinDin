@@ -30,10 +30,12 @@
       "pg": "^8.8.0",
       "reflect-metadata": "^0.1.13",
       "typeorm": "^0.3.10",
+      "typeorm-extension": "^2.3.1",
       "yup": "^0.32.11"
    },
    "scripts": {
-      "build": "tsc --target ES5 --experimentalDecorators --emitDecoratorMetadata",
+      "seed": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js seed -d ./src/data-source.ts",
+		"build": "rm -rf ./dist && tsc",
       "typeorm": "typeorm-ts-node-commonjs",
       "dev": "nodemon --exec ts-node ./src/index.ts",
       "migration:generate": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:generate ./src/migrations/default",
