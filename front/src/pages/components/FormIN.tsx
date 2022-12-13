@@ -22,28 +22,30 @@ export default function FormIN() {
 
 	return (
 		<main className={styles.main}>
-			<Image priority src={Logo} alt='Logo' className={styles.logo} />
-			<h2>Conecte-se</h2>
-			<FormControl isInvalid={error}>
-				<FormLabel style={{ fontSize: '1.4rem' }}>Email</FormLabel>
-				<Input className={styles.input} type='email' name='email' value={input.email} onChange={handleInputChange} />
-				{error && <FormErrorMessage>Email ou senha incorretos.</FormErrorMessage>}
+			<section>
+				<Image priority src={Logo} alt='Logo' className={styles.logo} />
+				<h2>Conecte-se</h2>
+				<FormControl isInvalid={error}>
+					<FormLabel style={{ fontSize: '1.4rem' }}>Email</FormLabel>
+					<Input className={styles.input} type='email' name='email' value={input.email} onChange={handleInputChange} />
+					{error && <FormErrorMessage>Email ou senha incorretos.</FormErrorMessage>}
 
-				<FormLabel style={{ fontSize: '1.4rem' }}>Senha</FormLabel>
-				<Input className={styles.input} type={!show ? 'password' : 'text'} name='password' value={input.password} onChange={handleInputChange} />
-				{error && <FormErrorMessage>Email ou senha incorretos.</FormErrorMessage>}
-				{!show ? (
-					<Image priority src={EyeClosed} alt='eye-closed' className={styles.eye} onClick={() => setShow(true)} width={35} height={35} />
-				) : (
-					<Image priority src={EyeOpen} alt='eye-open' className={styles.eye} onClick={() => setShow(false)} width={35} height={35} />
-				)}
-				<Link href='/home'>
-					<Button className={styles.btn}>Entrar</Button>
-				</Link>
-				<Link href={'/sign-up'}>
-					<Button className={styles.btnRegister}>Cadastre-se</Button>
-				</Link>
-			</FormControl>
+					<FormLabel style={{ fontSize: '1.4rem' }}>Senha</FormLabel>
+					<Input className={styles.input} type={!show ? 'password' : 'text'} name='password' value={input.password} onChange={handleInputChange} />
+					{error && <FormErrorMessage>Email ou senha incorretos.</FormErrorMessage>}
+					{!show ? (
+						<Image priority src={EyeClosed} alt='eye-closed' className={styles.eye} onClick={() => setShow(true)} width={35} height={35} />
+					) : (
+						<Image priority src={EyeOpen} alt='eye-open' className={styles.eye} onClick={() => setShow(false)} width={35} height={35} />
+					)}
+					<Link href='/home'>
+						<Button className={styles.btn}>Entrar</Button>
+					</Link>
+					<Link href={'/sign-up'}>
+						<Button className={styles.btnRegister}>Cadastre-se</Button>
+					</Link>
+				</FormControl>
+			</section>
 		</main>
 	);
 }
