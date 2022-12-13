@@ -1,30 +1,24 @@
 import bcrypt from "bcrypt"
 import { Request, Response } from "express"
 import jwt from "jsonwebtoken"
-import { User } from '../entities/User'
 import IUser from '../interfaces/cadasterUser.type'
 import { userRepository } from '../repositories/userRepository'
-
-
 export class UserController {
     async cadaster(req: Request, res: Response) {
-        const { name, email, password } = req.body
+        const { name, email, password }: IUser = req.body
         try {
             const validation = await userRepository.findOneBy({ email })
             if (validation) return res.status(400).json({ message: "E-mail já cadastrado!" })
 
             const passwordCrypted = await bcrypt.hash(password, 10)
 
-            const data: IUser = {
+            await userRepository.insert({
                 name,
                 email,
                 password: passwordCrypted,
-            }
+            })
 
-            const user = await userRepository.create(data)
-            await userRepository.save(user)
-
-            return res.status(201).json({ user })
+            return res.status(201).json()
 
         } catch (e: any) {
             return res.status(500).json({ message: "Erro interno no servidor" })
@@ -32,7 +26,7 @@ export class UserController {
     }
 
     async login(req: Request, res: Response) {
-        const { email, password } = req.body
+        const { email, password }: IUser = req.body
         try {
             const user = await userRepository.findOneBy({ email })
             if (!user) {
@@ -67,10 +61,9 @@ export class UserController {
 
         try {
             return res.status(200).json({ user: req.user })
-        } catch (error) {
-
+        } catch (e: any) {
+            return res.status(500).json(e)
         }
-
 
     }
 
@@ -80,7 +73,6 @@ export class UserController {
 
         try {
             if (email !== currentEmail) {
-                console.log('entrei')
                 const user = await userRepository.findOneBy({ email })
                 if (user) {
                     return res.status(400).json({ message: "O e-mail informado já está sendo utilizado por outro usuário." })
@@ -89,16 +81,12 @@ export class UserController {
 
             const passwordCrypted = await bcrypt.hash(password, 10)
 
-
-            await userRepository.createQueryBuilder()
-                .update(User)
-                .set({ name, email, password: passwordCrypted })
-                .where("id = :id", { id }).execute()
+            await userRepository.update({ id }, { name, email, password: passwordCrypted })
 
             return res.status(204).json()
 
-        } catch (error) {
-            return res.status(500).json(error)
+        } catch (e: any) {
+            return res.status(500).json(e)
         }
     }
 }

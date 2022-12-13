@@ -1,21 +1,13 @@
 import { Request, Response } from "express"
 import moment from 'moment'
-import { userInfo } from 'os'
-import { Any, ILike } from 'typeorm'
-import { AppDataSource } from '../data-source'
-import { Category } from '../entities/Category'
+import { Any } from 'typeorm'
 import { Transaction } from '../entities/Transaction'
-import { User } from '../entities/User'
-import { categoryRepository } from '../repositories/categoryRepository'
 import { transactionRepository } from '../repositories/transactionRepository'
 
-function formatValue(value: number) {
-    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-}
+
 function formatDate(date: string) {
     return moment(date, "DD/MM/YYYY").format()
 }
-
 export class TransactionController {
     async createTransaction(req: Request, res: Response) {
         const { description, value, date, category_id, type } = req.body
@@ -28,7 +20,7 @@ export class TransactionController {
         if (type !== 'entrada' && type !== 'saida') return res.status(400).json({ message: "Apenas entrada e saída são tipos validos!" })
 
         try {
-            const response = await transactionRepository.create({
+            const response = await transactionRepository.insert({
                 description,
                 value,
                 date: formatDate(date),
@@ -36,16 +28,15 @@ export class TransactionController {
                 user: id,
                 type,
             })
-            transactionRepository.save(response)
+
             return res.status(201).json(response)
-        } catch (error) {
-            return res.status(500).json(error)
+        } catch (e: any) {
+            return res.status(500).json(e)
         }
     }
 
     async listTransactions(req: Request, res: Response) {
         const { id }: any = req.user
-
         const { filter }: any = req.query
         try {
             if (filter) {
@@ -89,15 +80,14 @@ export class TransactionController {
                 })
                 return res.status(200).json(response)
             }
-        } catch (error) {
-            return res.status(500).json(error)
+        } catch (e: any) {
+            return res.status(500).json(e)
         }
     }
 
     async transactionId(req: Request, res: Response) {
         const { id: idUser } = req.user
         const { id }: any = req.params
-        console.log(idUser, id)
 
         try {
             const response = await transactionRepository.find({
@@ -119,8 +109,8 @@ export class TransactionController {
 
             })
             return res.status(200).json(response)
-        } catch (error) {
-            return res.status(500).json(error)
+        } catch (e: any) {
+            return res.status(500).json(e)
         }
     }
 
@@ -141,10 +131,9 @@ export class TransactionController {
                 type,
                 category: category_id,
             })
-
             return res.status(204).json()
-        } catch (error) {
-            return res.json(error)
+        } catch (e: any) {
+            return res.status(500).json(e)
         }
     }
 
@@ -152,18 +141,15 @@ export class TransactionController {
         const { id }: any = req.params
         const { id: idUser }: any = req.user
         try {
-            await transactionRepository.createQueryBuilder()
-                .delete()
-                .from(Transaction)
-                .where({
-                    id,
-                    user_id: idUser
-                })
-                .execute()
-
+            await transactionRepository.delete({
+                id,
+                user: {
+                    id: idUser
+                }
+            })
             return res.status(204).json()
-        } catch (error) {
-            return res.json(error)
+        } catch (e: any) {
+            return res.status(500).json(e)
         }
 
     }
@@ -188,9 +174,8 @@ export class TransactionController {
             const balance = Number(profit) - Number(expenses)
 
             return res.status(200).json({ profit, expenses, balance })
-        } catch (error) {
-
-            return res.json(error)
+        } catch (e: any) {
+            return res.status(500).json(e)
         }
 
     }

@@ -15,14 +15,14 @@ routes.use(authMiddleware)
 
 routes.post('/transaction', new TransactionController().createTransaction)
 
-routes.get('/users', new UserController().user)
+routes.get('/user', new UserController().user)
 routes.get('/categories', new CategoryController().categories)
-routes.get('/transaction', new TransactionController().listTransactions)
+routes.get('/transactions', new TransactionController().listTransactions)
 routes.get('/transaction/:id', new TransactionController().transactionId)
 routes.get('/extract', new TransactionController().extract)
 
 
-routes.put('/users', new UserController().updateUser)
+routes.put('/user', new UserController().updateUser)
 routes.put('/transaction/:id', new TransactionController().updateTransaction)
 
 routes.delete("/transaction/:id", new TransactionController().deleteTransaction)
