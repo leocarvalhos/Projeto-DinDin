@@ -4,7 +4,25 @@
 .main
     width: 100vw
     height: 100vh
+    display: flex
     .formSignIn
         width: 100%
     .textSignUp
         display: none
+
+@media screen and (min-width: 768px)
+    .main
+        background-image: url("../../../public/images/background.svg")
+        background-repeat: no-repeat
+        background-position: center
+        background-size: cover
+        .textSignUp
+            width: 50%
+            display: block
+
+            .logo
+                position: absolute
+                top: 25px
+                left: 25px
+        .formSignIn
+            width: 50%

@@ -2,9 +2,7 @@
 @use "../variables"
 
 .main
-    background-color: variables.$white
-    padding: 60px 35px 50px 35px
-    height: 100vh
+    padding: 110px 35px 50px 35px
     @include mixin.flex(column, center, center)
     position: relative
 
@@ -42,3 +40,13 @@
 
     .btn:hover,.btnRegister:hover
         @include mixin.effectButton(variables.$value)
+
+@media screen and (min-width: 768px)
+    .main
+        width: 90%
+        height: 70vh
+        display: flex
+        justify-content: center
+        align-items: center
+        .logo
+            display: none
