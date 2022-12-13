@@ -27,11 +27,11 @@ export default function FormIN() {
 			<FormControl isInvalid={error}>
 				<FormLabel style={{ fontSize: '1.4rem' }}>Email</FormLabel>
 				<Input className={styles.input} type='email' name='email' value={input.email} onChange={handleInputChange} />
-				{error && <FormErrorMessage>Email is required.</FormErrorMessage>}
+				{error && <FormErrorMessage>Email ou senha incorretos.</FormErrorMessage>}
 
-				<FormLabel style={{ fontSize: '1.4rem' }}>Password</FormLabel>
+				<FormLabel style={{ fontSize: '1.4rem' }}>Senha</FormLabel>
 				<Input className={styles.input} type={!show ? 'password' : 'text'} name='password' value={input.password} onChange={handleInputChange} />
-				{error && <FormErrorMessage>Password is required.</FormErrorMessage>}
+				{error && <FormErrorMessage>Email ou senha incorretos.</FormErrorMessage>}
 				{!show ? (
 					<Image priority src={EyeClosed} alt='eye-closed' className={styles.eye} onClick={() => setShow(true)} width={35} height={35} />
 				) : (
