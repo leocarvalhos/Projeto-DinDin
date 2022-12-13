@@ -13,8 +13,8 @@ export default function SignIn() {
 					Controle suas <span>finanças</span>, sem planilha chata.
 				</h1>
 				<p>Organizar as suas finanças nunca foi tão fácil, com o DINDIN, você tem tudo num único lugar e em um clique de distância.</p>
-				<Link href='/sign-up' className={styles.btn}>
-					Cadastre-se
+				<Link href='/sign-up'>
+					<Button className={styles.btn}>Cadastre-se</Button>
 				</Link>
 			</section>
 			<section className={styles.formSignIn}>

@@ -19,10 +19,77 @@
         .textSignUp
             width: 50%
             display: block
+            @include mixin.flex(column, center, flex-start)
+            padding-left: 25px
 
             .logo
                 position: absolute
-                top: 25px
-                left: 25px
+                top: 50px
+                left: 50px
+
+            h1
+                @include mixin.fontStyle(variables.$font-default, normal, 700, 3rem, 4rem)
+                color: variables.$white
+                margin-bottom: 20px
+                span
+                    color: variables.$violet
+
+            p
+                @include mixin.fontStyle(variables.$font-default, normal, 400, 2.2rem, 2.7rem)
+                color: variables.$white
+                margin-bottom: 20px
+
+            .btn
+                width: 200px
+                height: 43px
+                background: variables.$violet
+                color: variables.$white
+                @include mixin.fontStyle(variables.$font-default, normal, 700, 1.4rem, 1.7rem)
+
         .formSignIn
             width: 50%
+
+@media screen and (min-width: 1024px)
+    .main
+        .textSignUp
+            h1
+                @include mixin.fontStyle(variables.$font-default, normal, 700, 3.5rem, 4.4rem)
+                color: variables.$white
+                margin-bottom: 20px
+                span
+                    color: variables.$violet
+
+            p
+                @include mixin.fontStyle(variables.$font-default, normal, 400, 2.2rem, 3rem)
+                color: variables.$white
+                margin-bottom: 20px
+
+            .btn
+                width: 230px
+                height: 43px
+                background: variables.$violet
+                color: variables.$white
+                @include mixin.fontStyle(variables.$font-default, normal, 700, 1.4rem, 1.7rem)
+
+@media screen and (min-width: 1280px)
+    .main
+        .textSignUp
+            padding-left: 50px
+            h1
+                @include mixin.fontStyle(variables.$font-default, normal, 700, 7rem, 6rem)
+                color: variables.$white
+                margin-bottom: 20px
+                span
+                    color: variables.$violet
+
+            p
+                @include mixin.fontStyle(variables.$font-default, normal, 400, 3.5rem, 5rem)
+                color: variables.$white
+                margin-bottom: 20px
+
+            .btn
+                width: 280px
+                height: 50px
+                background: variables.$violet
+                color: variables.$white
+                @include mixin.fontStyle(variables.$font-default, normal, 700, 1.4rem, 1.7rem)

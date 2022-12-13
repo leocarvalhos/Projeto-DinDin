@@ -31,13 +31,15 @@ export default function FormIN() {
 					{error && <FormErrorMessage>Email ou senha incorretos.</FormErrorMessage>}
 
 					<FormLabel style={{ fontSize: '1.4rem' }}>Senha</FormLabel>
-					<Input className={styles.input} type={!show ? 'password' : 'text'} name='password' value={input.password} onChange={handleInputChange} />
-					{error && <FormErrorMessage>Email ou senha incorretos.</FormErrorMessage>}
-					{!show ? (
-						<Image priority src={EyeClosed} alt='eye-closed' className={styles.eye} onClick={() => setShow(true)} width={35} height={35} />
-					) : (
-						<Image priority src={EyeOpen} alt='eye-open' className={styles.eye} onClick={() => setShow(false)} width={35} height={35} />
-					)}
+					<div style={{ position: 'relative' }}>
+						<Input className={styles.input} type={!show ? 'password' : 'text'} name='password' value={input.password} onChange={handleInputChange} />
+						{error && <FormErrorMessage>Email ou senha incorretos.</FormErrorMessage>}
+						{!show ? (
+							<Image priority src={EyeClosed} alt='eye-closed' className={styles.eye} onClick={() => setShow(true)} width={35} height={35} />
+						) : (
+							<Image priority src={EyeOpen} alt='eye-open' className={styles.eye} onClick={() => setShow(false)} width={35} height={35} />
+						)}
+					</div>
 					<Link href='/home'>
 						<Button className={styles.btn}>Entrar</Button>
 					</Link>
