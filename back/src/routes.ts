@@ -3,8 +3,6 @@ import { CategoryController } from './controllers/CategoryController'
 import { TransactionController } from './controllers/TransactionController'
 import { UserController } from './controllers/UserController'
 import authMiddleware from './middlewares/authMiddleware'
-import validate from './middlewares/validate'
-import cadasterSchema from './schemas/cadaster.schema'
 const routes = Router()
 
 routes.post('/users', new UserController().cadaster)
