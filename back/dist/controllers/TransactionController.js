@@ -6,11 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TransactionController = void 0;
 const moment_1 = __importDefault(require("moment"));
 const typeorm_1 = require("typeorm");
-const Transaction_1 = require("../entities/Transaction");
 const transactionRepository_1 = require("../repositories/transactionRepository");
-function formatValue(value) {
-    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-}
 function formatDate(date) {
     return (0, moment_1.default)(date, "DD/MM/YYYY").format();
 }
@@ -24,7 +20,7 @@ class TransactionController {
         if (type !== 'entrada' && type !== 'saida')
             return res.status(400).json({ message: "Apenas entrada e saída são tipos validos!" });
         try {
-            const response = await transactionRepository_1.transactionRepository.create({
+            const response = await transactionRepository_1.transactionRepository.insert({
                 description,
                 value,
                 date: formatDate(date),
@@ -32,11 +28,10 @@ class TransactionController {
                 user: id,
                 type,
             });
-            transactionRepository_1.transactionRepository.save(response);
             return res.status(201).json(response);
         }
-        catch (error) {
-            return res.status(500).json(error);
+        catch (e) {
+            return res.status(500).json(e);
         }
     }
     async listTransactions(req, res) {
@@ -85,14 +80,13 @@ class TransactionController {
                 return res.status(200).json(response);
             }
         }
-        catch (error) {
-            return res.status(500).json(error);
+        catch (e) {
+            return res.status(500).json(e);
         }
     }
     async transactionId(req, res) {
         const { id: idUser } = req.user;
         const { id } = req.params;
-        console.log(idUser, id);
         try {
             const response = await transactionRepository_1.transactionRepository.find({
                 select: {
@@ -113,8 +107,8 @@ class TransactionController {
             });
             return res.status(200).json(response);
         }
-        catch (error) {
-            return res.status(500).json(error);
+        catch (e) {
+            return res.status(500).json(e);
         }
     }
     async updateTransaction(req, res) {
@@ -134,26 +128,24 @@ class TransactionController {
             });
             return res.status(204).json();
         }
-        catch (error) {
-            return res.json(error);
+        catch (e) {
+            return res.status(500).json(e);
         }
     }
     async deleteTransaction(req, res) {
         const { id } = req.params;
         const { id: idUser } = req.user;
         try {
-            await transactionRepository_1.transactionRepository.createQueryBuilder()
-                .delete()
-                .from(Transaction_1.Transaction)
-                .where({
+            await transactionRepository_1.transactionRepository.delete({
                 id,
-                user_id: idUser
-            })
-                .execute();
+                user: {
+                    id: idUser
+                }
+            });
             return res.status(204).json();
         }
-        catch (error) {
-            return res.json(error);
+        catch (e) {
+            return res.status(500).json(e);
         }
     }
     async extract(req, res) {
@@ -172,8 +164,8 @@ class TransactionController {
             const balance = Number(profit) - Number(expenses);
             return res.status(200).json({ profit, expenses, balance });
         }
-        catch (error) {
-            return res.json(error);
+        catch (e) {
+            return res.status(500).json(e);
         }
     }
 }

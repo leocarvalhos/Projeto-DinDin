@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const User_1 = require("../entities/User");
 const userRepository_1 = require("../repositories/userRepository");
 class UserController {
     async cadaster(req, res) {
@@ -16,14 +15,12 @@ class UserController {
             if (validation)
                 return res.status(400).json({ message: "E-mail já cadastrado!" });
             const passwordCrypted = await bcrypt_1.default.hash(password, 10);
-            const data = {
+            await userRepository_1.userRepository.insert({
                 name,
                 email,
                 password: passwordCrypted,
-            };
-            const user = await userRepository_1.userRepository.create(data);
-            await userRepository_1.userRepository.save(user);
-            return res.status(201).json({ user });
+            });
+            return res.status(201).json();
         }
         catch (e) {
             return res.status(500).json({ message: "Erro interno no servidor" });
@@ -57,7 +54,8 @@ class UserController {
         try {
             return res.status(200).json({ user: req.user });
         }
-        catch (error) {
+        catch (e) {
+            return res.status(500).json(e);
         }
     }
     async updateUser(req, res) {
@@ -65,21 +63,17 @@ class UserController {
         const { id, email: currentEmail } = req.user;
         try {
             if (email !== currentEmail) {
-                console.log('entrei');
                 const user = await userRepository_1.userRepository.findOneBy({ email });
                 if (user) {
                     return res.status(400).json({ message: "O e-mail informado já está sendo utilizado por outro usuário." });
                 }
             }
             const passwordCrypted = await bcrypt_1.default.hash(password, 10);
-            await userRepository_1.userRepository.createQueryBuilder()
-                .update(User_1.User)
-                .set({ name, email, password: passwordCrypted })
-                .where("id = :id", { id }).execute();
+            await userRepository_1.userRepository.update({ id }, { name, email, password: passwordCrypted });
             return res.status(204).json();
         }
-        catch (error) {
-            return res.status(500).json(error);
+        catch (e) {
+            return res.status(500).json(e);
         }
     }
 }

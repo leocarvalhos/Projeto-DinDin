@@ -5,12 +5,11 @@ const categoryRepository_1 = require("../repositories/categoryRepository");
 class CategoryController {
     async categories(req, res) {
         try {
-            const categories = await categoryRepository_1.categoryRepository
-                .createQueryBuilder("categories").getRawMany();
+            const categories = await categoryRepository_1.categoryRepository.find();
             return res.status(200).json(categories);
         }
-        catch (error) {
-            return res.status(500).json(error);
+        catch (e) {
+            return res.status(500).json(e);
         }
     }
 }

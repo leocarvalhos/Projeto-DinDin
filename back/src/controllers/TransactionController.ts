@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import moment from 'moment'
 import { Any } from 'typeorm'
 import { Transaction } from '../entities/Transaction'
+import { User } from '../entities/User'
 import { transactionRepository } from '../repositories/transactionRepository'
 
 
@@ -36,7 +37,7 @@ export class TransactionController {
     }
 
     async listTransactions(req: Request, res: Response) {
-        const { id }: any = req.user
+        const { id } = req.user
         const { filter }: any = req.query
         try {
             if (filter) {
@@ -86,7 +87,7 @@ export class TransactionController {
     }
 
     async transactionId(req: Request, res: Response) {
-        const { id: idUser } = req.user
+        const { id: idUser }: any = req.user
         const { id }: any = req.params
 
         try {
@@ -177,8 +178,6 @@ export class TransactionController {
         } catch (e: any) {
             return res.status(500).json(e)
         }
-
     }
-
 }
 
