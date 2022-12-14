@@ -2,7 +2,6 @@ import { Request, Response } from "express"
 import { categoryRepository } from '../repositories/categoryRepository'
 
 export class CategoryController {
-
     async categories(req: Request, res: Response) {
         try {
             const categories = await categoryRepository.find()
