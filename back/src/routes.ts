@@ -9,6 +9,7 @@ routes.post('/users', new UserController().cadaster)
 routes.post('/login', new UserController().login)
 
 
+
 routes.use(authMiddleware)
 
 routes.post('/transaction', new TransactionController().createTransaction)
