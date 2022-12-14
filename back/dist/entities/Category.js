@@ -10,23 +10,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Category = void 0;
-const typeorm_1 = require("typeorm");
-const Transaction_1 = require("./Transaction");
-let Category = class Category {
-};
-__decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)(),
-    __metadata("design:type", Number)
-], Category.prototype, "id", void 0);
-__decorate([
-    (0, typeorm_1.Column)({ type: 'text' }),
-    __metadata("design:type", String)
-], Category.prototype, "description", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => Transaction_1.Transaction, (transaction) => transaction.category),
-    __metadata("design:type", Array)
-], Category.prototype, "transactions", void 0);
-Category = __decorate([
-    (0, typeorm_1.Entity)('categories')
-], Category);
+var typeorm_1 = require("typeorm");
+var Transaction_1 = require("./Transaction");
+var Category = /** @class */ (function () {
+    function Category() {
+    }
+    __decorate([
+        (0, typeorm_1.PrimaryGeneratedColumn)(),
+        __metadata("design:type", Number)
+    ], Category.prototype, "id", void 0);
+    __decorate([
+        (0, typeorm_1.Column)({ type: 'text' }),
+        __metadata("design:type", String)
+    ], Category.prototype, "description", void 0);
+    __decorate([
+        (0, typeorm_1.OneToMany)(function () { return Transaction_1.Transaction; }, function (transaction) { return transaction.category; }),
+        __metadata("design:type", Array)
+    ], Category.prototype, "transactions", void 0);
+    Category = __decorate([
+        (0, typeorm_1.Entity)('categories')
+    ], Category);
+    return Category;
+}());
 exports.Category = Category;

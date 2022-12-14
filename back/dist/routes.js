@@ -3,12 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const CategoryController_1 = require("./controllers/CategoryController");
-const TransactionController_1 = require("./controllers/TransactionController");
-const UserController_1 = require("./controllers/UserController");
-const authMiddleware_1 = __importDefault(require("./middlewares/authMiddleware"));
-const routes = (0, express_1.Router)();
+var express_1 = require("express");
+var CategoryController_1 = require("./controllers/CategoryController");
+var TransactionController_1 = require("./controllers/TransactionController");
+var UserController_1 = require("./controllers/UserController");
+var authMiddleware_1 = __importDefault(require("./middlewares/authMiddleware"));
+var routes = (0, express_1.Router)();
 routes.post('/users', new UserController_1.UserController().cadaster);
 routes.post('/login', new UserController_1.UserController().login);
 routes.use(authMiddleware_1.default);
