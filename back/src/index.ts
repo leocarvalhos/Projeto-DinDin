@@ -6,7 +6,7 @@ import routes from './routes'
 import cors from 'cors'
 
 AppDataSource.initialize().then(() => {
-    const port = 3001 || process.env.PORT
+    const port = process.env.PORT || 3001
     const app = express()
     app.use(express.json())
     app.use(cors())
