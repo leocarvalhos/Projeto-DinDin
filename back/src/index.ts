@@ -13,6 +13,6 @@ AppDataSource.initialize().then(() => {
     app.use(routes)
 
 
-    console.log(`Express server has started on port ${process.env.PORT}`)
+    console.log(`Express server has started on port ${port}`)
     return app.listen(port)
 }).catch(error => console.log(error))
