@@ -1,8 +1,6 @@
 import { Request, Response } from "express"
 import moment from 'moment'
 import { Any } from 'typeorm'
-import { Transaction } from '../entities/Transaction'
-import { User } from '../entities/User'
 import { transactionRepository } from '../repositories/transactionRepository'
 
 

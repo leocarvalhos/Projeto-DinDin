@@ -1,14 +1,14 @@
 import styles from '../../styles/components/FormUP.module.sass';
 
-import { Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input } from '@chakra-ui/react';
-import { ChangeEvent, MouseEvent, useState, useRef } from 'react';
+import { Button, FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react';
 import Image from 'next/image';
-import EyeOpen from '../../../public/images/eye-open.svg';
-import EyeClosed from '../../../public/images/eye-closed.svg';
-import LogoViolet from '../../../public/images/logoViolet.svg';
-import LogoDefault from '../../../public/images/logo.svg';
-import IFormUP from '../../interfaces/IFormUP.type';
 import Link from 'next/link';
+import { ChangeEvent, useState, useEffect } from 'react';
+import EyeClosed from '../../../public/images/eye-closed.svg';
+import EyeOpen from '../../../public/images/eye-open.svg';
+import LogoDefault from '../../../public/images/logo.svg';
+import LogoViolet from '../../../public/images/logoViolet.svg';
+import IFormUP from '../../interfaces/IFormUP.type';
 
 
 export default function FormUP() {
@@ -28,7 +28,14 @@ export default function FormUP() {
 	function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
 		setInput({...input,[e.target.name]: e.target.value});
 	}
-
+	
+	function handleForm() {
+		try {
+			
+		} catch (error) {
+			console.log(error)
+		}
+	 }
 
 	return (
 		<main className={styles.main}>
