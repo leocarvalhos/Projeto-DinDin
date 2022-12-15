@@ -3,9 +3,7 @@ import 'reflect-metadata'
 import { DataSource, DataSourceOptions } from 'typeorm'
 import { SeederOptions } from 'typeorm-extension'
 import { MainSeeder } from './seeds/MainSeeder'
-import path from 'path';
 const port = process.env.DB_PORT as number | undefined
-const __dirname = path.resolve();
 
 
 const options: DataSourceOptions & SeederOptions = ({
