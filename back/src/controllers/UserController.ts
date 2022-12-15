@@ -21,7 +21,7 @@ export class UserController {
             return res.status(201).json()
 
         } catch (e: any) {
-            return res.status(500).json({ message: "Erro interno no servidor" })
+            return res.status(500).json(e)
         }
     }
 
