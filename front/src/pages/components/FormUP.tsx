@@ -81,7 +81,7 @@ export default function FormUP() {
 					<div style={{position: 'relative'}}>
 						<Input
 						className={styles.input}
-						id='1'
+						placeholder='Maria'
 						type='text'
 						{...register('name')}
 						value={input.name}
@@ -98,7 +98,7 @@ export default function FormUP() {
 						<Input
 						className={styles.input}
 						type='email'
-						id='2'
+						placeholder='maria@hotmail.com'
 						{...register('email')}
 						value={input.email}
 						onChange={handleInputChange}
@@ -116,7 +116,7 @@ export default function FormUP() {
 						<Input
 						className={styles.input}
 						type={!show.password ? 'password' : 'text'}
-						id='3'
+						placeholder='•••••••••••••••'
 						{...register('password')}
 						value={input.password}
 						onChange={handleInputChange}
@@ -153,7 +153,7 @@ export default function FormUP() {
 						<Input
 						className={styles.input}
 						type={!show.cpassword ? 'password' : 'text'}
-						id='4'
+						placeholder='•••••••••••••••'
 						{...register('cpassword')}
 						value={input.cpassword}
 						onChange={handleInputChange}
