@@ -19,7 +19,7 @@ export default function FormIN() {
 	function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
 		setInput({ ...input, [e.target.name]: e.target.value });
 	}
-
+	
 	return (
 		<main className={styles.main}>
 			<section>

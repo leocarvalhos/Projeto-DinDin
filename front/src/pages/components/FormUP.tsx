@@ -1,19 +1,37 @@
-import styles from '../../styles/components/FormUP.module.sass';
-
-import { Button, FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react';
+import { Button, CircularProgress, FormControl, FormErrorMessage, FormLabel, Input } from '@chakra-ui/react';
+import { yupResolver } from '@hookform/resolvers/yup';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChangeEvent, useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { ChangeEvent, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
 import EyeClosed from '../../../public/images/eye-closed.svg';
 import EyeOpen from '../../../public/images/eye-open.svg';
 import LogoDefault from '../../../public/images/logo.svg';
 import LogoViolet from '../../../public/images/logoViolet.svg';
+import api from '../../api';
 import IFormUP from '../../interfaces/IFormUP.type';
+import styles from '../../styles/components/FormUP.module.sass';
 
+const schema = yup.object().shape({
+	name: yup.string().required('Nome obrigatório.'),
+	email: yup.string().email().required('Email obrigatório.'),
+	password: yup.string().required('Senha obrigatória.').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/, "A senha deve conter ao menos um dígito, uma letra maiúscula, um caractere especial e oito dígitos;"),
+	cpassword: yup.string().required('Confirmação de senha obrigatória.').oneOf([yup.ref('password')], 'As senhas precisam ser iguais.')
+})
 
 export default function FormUP() {
-	const [error, setError] = useState<boolean>(false);
-	const [message, setMessage] = useState<string>('');
+	const [error, setError] = useState('')
+	const [conferencePassword, setconferencePassword] = useState('')
+	const [btnCadaster, setBtnCadaster] = useState(false)
+	const { register,
+		handleSubmit,
+		formState: { errors },
+		reset }
+		= useForm<IFormUP>({ resolver: yupResolver(schema) })
+	const router = useRouter()
+
 	const [show, setShow] = useState({
 		password: false,
 		cpassword: false,
@@ -29,14 +47,20 @@ export default function FormUP() {
 		setInput({...input,[e.target.name]: e.target.value});
 	}
 	
-	function handleForm() {
-		try {
+	async function handleForm(data: IFormUP) {
 			
-		} catch (error) {
+		try {
+			await api.post('/users', input)
+			router.push('/')
+			setBtnCadaster(true)
+			reset()
+		} catch (error: any) {
 			console.log(error)
+			setError(error.response.data.message)
 		}
 	 }
 
+	setTimeout
 	return (
 		<main className={styles.main}>
 			<section>
@@ -44,40 +68,53 @@ export default function FormUP() {
 				
 				<Image priority src={LogoViolet} className={styles.logo} alt='logo' />
 				<Image priority src={LogoDefault} className={styles.logoDefault} alt='logo' />
-				
-				<FormControl isInvalid={error}>
+				<form onSubmit={handleSubmit(handleForm)}>
+				<FormControl
+				isInvalid={!!errors?.name?.message}>
 					<FormLabel style={{ fontSize: '1.4rem' }}>Nome</FormLabel>
-					<Input
+					<div style={{position: 'relative'}}>
+						<Input
 						className={styles.input}
 						id='1'
 						type='text'
-						name='name'
+						{...register('name')}
 						value={input.name}
 						onChange={handleInputChange}
 					/>
-					{error && <FormErrorMessage>Nome é obrigatório.</FormErrorMessage>}
-
+					{errors.name && <FormErrorMessage className={styles.errorMessage}>{errors.name.message}</FormErrorMessage>}
+					</div>
+					</FormControl>
+					
+					<FormControl
+				isInvalid={!!errors?.email?.message}>
 					<FormLabel style={{ fontSize: '1.4rem' }}>Email</FormLabel>
-					<Input
+					<div style={{position: 'relative'}}>
+						<Input
 						className={styles.input}
 						type='email'
 						id='2'
-						name='email'
+						{...register('email')}
 						value={input.email}
 						onChange={handleInputChange}
 					/>
-					{error && <FormErrorMessage>Email é obrigatório.</FormErrorMessage>}
-
+					{errors.email && <FormErrorMessage className={styles.errorMessage}>{errors.email.message}</FormErrorMessage>}
+					</div>
+					</FormControl>
+				
+				<FormControl
+				isInvalid={!!errors?.password?.message}>
+			
 					<FormLabel style={{ fontSize: '1.4rem' }}>Senha</FormLabel>
-					<Input
+					<div style={{position: 'relative'}}>
+						<Input
 						className={styles.input}
 						type={!show.password ? 'password' : 'text'}
 						id='3'
-						name='password'
+						{...register('password')}
 						value={input.password}
 						onChange={handleInputChange}
 					/>
-					{error && <FormErrorMessage>Senha é obrigatória.</FormErrorMessage>}
+					{errors.password && <FormErrorMessage className={styles.errorMessage}>{errors.password?.message}</FormErrorMessage>}
 					{!show.password ? (
 						<Image
 							priority
@@ -98,17 +135,25 @@ export default function FormUP() {
 							width={35}
 							height={35}
 						/>
-					)}
+							)}
+							</div>
+				</FormControl>
+				
+
+				<FormControl
+				isInvalid={!!errors?.cpassword?.message}>
 					<FormLabel style={{ fontSize: '1.4rem' }}>Confirmação de senha</FormLabel>
-					<Input
+					<div style={{position: 'relative'}}>
+						<Input
 						className={styles.input}
 						type={!show.cpassword ? 'password' : 'text'}
 						id='4'
-						name='cpassword'
+						{...register('cpassword')}
 						value={input.cpassword}
 						onChange={handleInputChange}
 					/>
-					{error && <FormErrorMessage>Confirmação de senha obrigatória.</FormErrorMessage>}
+							{errors.cpassword && <FormErrorMessage className={styles.errorMessage}>{errors.cpassword.message}</FormErrorMessage>}
+							<span className={styles.errorBackEnd}>{error}</span>
 					{!show.cpassword ? (
 						<Image
 							priority
@@ -129,9 +174,11 @@ export default function FormUP() {
 							width={35}
 							height={35}
 						/>
-					)}
-					<Button className={styles.btn}>Cadastrar</Button>
-				</FormControl>
+							)}
+							</div>
+					</FormControl>
+					<Button className={styles.btn} type='submit' >{!btnCadaster ? 'Cadastrar' : <CircularProgress isIndeterminate color='green.300' />}</Button>
+					</form>
 				<Link href='/' className={styles.link}>Já tem cadastro? Clique aqui!</Link>
 			</section>
 		</main>
