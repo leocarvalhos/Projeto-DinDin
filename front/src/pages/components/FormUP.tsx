@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast, { Toaster } from 'react-hot-toast';
 import * as yup from 'yup';
 import EyeClosed from '../../../public/images/eye-closed.svg';
 import EyeOpen from '../../../public/images/eye-open.svg';
@@ -22,8 +23,8 @@ const schema = yup.object().shape({
 })
 
 export default function FormUP() {
+	const notify = () => toast.success('Cadastro bem sucedido!')
 	const [error, setError] = useState('')
-	const [conferencePassword, setconferencePassword] = useState('')
 	const [btnCadaster, setBtnCadaster] = useState(false)
 	const { register,
 		handleSubmit,
@@ -52,12 +53,15 @@ export default function FormUP() {
 		try {
 			setBtnCadaster(true)
 			await api.post('/users', input)
-			router.push('/')
-			reset()
+			notify()
+			setTimeout(() => {
+				router.push('/')
+				reset()
+			},2000)
 		} catch (error: any) {
 			setBtnCadaster(false)
 			console.log(error)
-			setError(error.response.data.message)
+			if(error.response.data.message) {setError(error.response.data.message)}		
 		}
 	 }
 
@@ -178,7 +182,11 @@ export default function FormUP() {
 							)}
 							</div>
 					</FormControl>
-					<Button className={styles.btn} type='submit' >{!btnCadaster ? 'Cadastrar' : <CircularProgress isIndeterminate color='green.300' size='35px' />}</Button>
+					<Button className={styles.btn} type='submit' >{!btnCadaster ? 'Cadastrar' : <CircularProgress isIndeterminate color='green.300' size='35px' /> }</Button>
+					<Toaster
+					position="top-center"
+					reverseOrder={false}
+					/>
 					</form>
 				<Link href='/' className={styles.link}>Já tem cadastro? Clique aqui!</Link>
 			</section>
