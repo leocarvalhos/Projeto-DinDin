@@ -16,7 +16,7 @@ import styles from '../../styles/components/FormUP.module.sass';
 
 const schema = yup.object().shape({
 	name: yup.string().required('Nome obrigatório.'),
-	email: yup.string().email().required('Email obrigatório.'),
+	email: yup.string().required('Email obrigatório.').email(),
 	password: yup.string().required('Senha obrigatória.').matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$*&@#])[0-9a-zA-Z$*&@#]{8,}$/, "A senha deve conter ao menos um dígito, uma letra maiúscula, um caractere especial e oito dígitos;"),
 	cpassword: yup.string().required('Confirmação de senha obrigatória.').oneOf([yup.ref('password')], 'As senhas precisam ser iguais.')
 })
@@ -50,17 +50,17 @@ export default function FormUP() {
 	async function handleForm(data: IFormUP) {
 			
 		try {
+			setBtnCadaster(true)
 			await api.post('/users', input)
 			router.push('/')
-			setBtnCadaster(true)
 			reset()
 		} catch (error: any) {
+			setBtnCadaster(false)
 			console.log(error)
 			setError(error.response.data.message)
 		}
 	 }
 
-	setTimeout
 	return (
 		<main className={styles.main}>
 			<section>
@@ -68,9 +68,11 @@ export default function FormUP() {
 				
 				<Image priority src={LogoViolet} className={styles.logo} alt='logo' />
 				<Image priority src={LogoDefault} className={styles.logoDefault} alt='logo' />
+				
 				<form onSubmit={handleSubmit(handleForm)}>
 				<FormControl
-				isInvalid={!!errors?.name?.message}>
+				isInvalid={!!errors?.name?.message}
+				>
 					<FormLabel style={{ fontSize: '1.4rem' }}>Nome</FormLabel>
 					<div style={{position: 'relative'}}>
 						<Input
@@ -86,7 +88,7 @@ export default function FormUP() {
 					</FormControl>
 					
 					<FormControl
-				isInvalid={!!errors?.email?.message}>
+				isInvalid={!!errors?.email?.message || !!error}>
 					<FormLabel style={{ fontSize: '1.4rem' }}>Email</FormLabel>
 					<div style={{position: 'relative'}}>
 						<Input
@@ -98,7 +100,8 @@ export default function FormUP() {
 						onChange={handleInputChange}
 					/>
 					{errors.email && <FormErrorMessage className={styles.errorMessage}>{errors.email.message}</FormErrorMessage>}
-					</div>
+					<span className={styles.errorBackEnd}>{error}</span>
+						</div>
 					</FormControl>
 				
 				<FormControl
@@ -138,7 +141,6 @@ export default function FormUP() {
 							)}
 							</div>
 				</FormControl>
-				
 
 				<FormControl
 				isInvalid={!!errors?.cpassword?.message}>
@@ -153,7 +155,6 @@ export default function FormUP() {
 						onChange={handleInputChange}
 					/>
 							{errors.cpassword && <FormErrorMessage className={styles.errorMessage}>{errors.cpassword.message}</FormErrorMessage>}
-							<span className={styles.errorBackEnd}>{error}</span>
 					{!show.cpassword ? (
 						<Image
 							priority
@@ -177,7 +178,7 @@ export default function FormUP() {
 							)}
 							</div>
 					</FormControl>
-					<Button className={styles.btn} type='submit' >{!btnCadaster ? 'Cadastrar' : <CircularProgress isIndeterminate color='green.300' />}</Button>
+					<Button className={styles.btn} type='submit' >{!btnCadaster ? 'Cadastrar' : <CircularProgress isIndeterminate color='green.300' size='35px' />}</Button>
 					</form>
 				<Link href='/' className={styles.link}>Já tem cadastro? Clique aqui!</Link>
 			</section>
