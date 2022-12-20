@@ -1,5 +1,6 @@
 import {
     Button,
+    CircularProgress,
     FormControl,
     FormErrorMessage,
     FormLabel,
@@ -20,6 +21,8 @@ import ShowEye from '../../utils/ShowEye';
 import { useRouter } from 'next/router';
 import toast, { Toaster } from 'react-hot-toast';
 export default function FormIN() {
+    const [btnLogin, setBtnLogin] = useState(false);
+    const [errorBack, setErrorBack] = useState(false);
     const router = useRouter();
     const notify = () => toast.success('Bem vindo(a) ao DinDin!');
     const { setUser }: any = useStorage();
@@ -42,8 +45,10 @@ export default function FormIN() {
             setTimeout(() => {
                 router.push('/home');
             }, 1500);
-        } catch (error) {
+        } catch (error: any) {
+            setBtnLogin(false);
             console.log(error);
+            setErrorBack(error.response.data.message);
         }
     }
 
@@ -59,7 +64,7 @@ export default function FormIN() {
                 <Image priority src={Logo} alt="Logo" className={styles.logo} />
                 <h2>Conecte-se</h2>
                 <form onSubmit={handleSubmit(onSubmithanlder)}>
-                    <FormControl isInvalid={!!errors?.email?.message}>
+                    <FormControl isInvalid={!!errors?.email?.message || !!errorBack}>
                         <FormLabel style={{ fontSize: '1.4rem' }}>Email</FormLabel>
                         <div style={{ position: 'relative' }}>
                             <Input
@@ -76,7 +81,7 @@ export default function FormIN() {
                             )}
                         </div>
                     </FormControl>
-                    <FormControl isInvalid={!!errors?.password?.message}>
+                    <FormControl isInvalid={!!errors?.password?.message || !!errorBack}>
                         <FormLabel style={{ fontSize: '1.4rem' }}>Senha</FormLabel>
                         <div style={{ position: 'relative' }}>
                             <Input
@@ -91,11 +96,26 @@ export default function FormIN() {
                                     {errors.password?.message}
                                 </FormErrorMessage>
                             )}
+                            {errorBack && (
+                                <span className={styles.errorMessage}>{errorBack}</span>
+                            )}
                             {ShowEye(styles.eye, showPassword, setShowPassword)}
                         </div>
                     </FormControl>
-                    <Button className={styles.btn} type="submit">
-                        Entrar
+                    <Button
+                        className={styles.btn}
+                        type="submit"
+                        onClick={() => setBtnLogin(true)}
+                    >
+                        {!btnLogin ? (
+                            'Entrar'
+                        ) : (
+                            <CircularProgress
+                                isIndeterminate
+                                color="green.300"
+                                size="35px"
+                            />
+                        )}
                     </Button>
                     <Link href={'/sign-up'}>
                         <Button className={styles.btnRegister}>Cadastre-se</Button>
