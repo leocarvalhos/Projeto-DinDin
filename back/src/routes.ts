@@ -3,10 +3,13 @@ import { CategoryController } from './controllers/CategoryController'
 import { TransactionController } from './controllers/TransactionController'
 import { UserController } from './controllers/UserController'
 import authMiddleware from './middlewares/authMiddleware'
+import validateSchema from './middlewares/yupValidate'
+import cadasterSchema from './schemas/cadasterSchema'
+import loginSchema from './schemas/loginSchema'
 const routes = Router()
 
-routes.post('/users', new UserController().cadaster)
-routes.post('/login', new UserController().login)
+routes.post('/users', validateSchema(cadasterSchema), new UserController().cadaster)
+routes.post('/login', validateSchema(loginSchema), new UserController().login)
 
 routes.use(authMiddleware)
 

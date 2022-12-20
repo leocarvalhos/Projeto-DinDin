@@ -27,7 +27,8 @@
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.7",
-    "typeorm-extension": "^2.1.5"
+    "typeorm-extension": "^2.1.5",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "seed": "ts-node ./node_modules/typeorm-extension/dist/cli/index.js seed -d ./src/data-source.ts",

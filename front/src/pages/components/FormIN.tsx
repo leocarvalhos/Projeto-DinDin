@@ -1,53 +1,108 @@
-import styles from '../../styles/components/FormIN.module.sass';
-import { Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input } from '@chakra-ui/react';
-import { ChangeEvent, useState } from 'react';
+import {
+    Button,
+    FormControl,
+    FormErrorMessage,
+    FormLabel,
+    Input,
+} from '@chakra-ui/react';
+import { yupResolver } from '@hookform/resolvers/yup';
 import Image from 'next/image';
-import EyeOpen from '../../../public/images/eye-open.svg';
-import EyeClosed from '../../../public/images/eye-closed.svg';
-import Logo from '../../../public/images/logoViolet.svg';
-import IForm from '../../interfaces/IForm.type';
 import Link from 'next/link';
+import { ChangeEvent, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import Logo from '../../../public/images/logoViolet.svg';
+import api from '../../api';
+import useStorage from '../../hooks/useStorage';
+import IForm from '../../interfaces/IForm.type';
+import schema from '../../schemas/login.schema';
+import styles from '../../styles/components/FormIN.module.sass';
+import ShowEye from '../../utils/ShowEye';
+import { useRouter } from 'next/router';
+import toast, { Toaster } from 'react-hot-toast';
 export default function FormIN() {
-	const [error, setError] = useState<boolean>(false);
-	const [message, setMessage] = useState<string>('');
-	const [show, setShow] = useState<boolean>(false);
-	const [input, setInput] = useState<IForm>({
-		email: '',
-		password: '',
-	});
+    const router = useRouter();
+    const notify = () => toast.success('Bem vindo(a) ao DinDin!');
+    const { setUser }: any = useStorage();
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [input, setInput] = useState<IForm>({
+        email: '',
+        password: '',
+    });
 
-	function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
-		setInput({ ...input, [e.target.name]: e.target.value });
-	}
-	
-	return (
-		<main className={styles.main}>
-			<section>
-				<Image priority src={Logo} alt='Logo' className={styles.logo} />
-				<h2>Conecte-se</h2>
-				<FormControl isInvalid={error}>
-					<FormLabel style={{ fontSize: '1.4rem' }}>Email</FormLabel>
-					<Input className={styles.input} type='email' name='email' value={input.email} onChange={handleInputChange} />
-					{error && <FormErrorMessage>Email ou senha incorretos.</FormErrorMessage>}
+    function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
+        setInput({ ...input, [e.target.name]: e.target.value });
+    }
 
-					<FormLabel style={{ fontSize: '1.4rem' }}>Senha</FormLabel>
-					<div style={{ position: 'relative' }}>
-						<Input className={styles.input} type={!show ? 'password' : 'text'} name='password' value={input.password} onChange={handleInputChange} />
-						{error && <FormErrorMessage>Email ou senha incorretos.</FormErrorMessage>}
-						{!show ? (
-							<Image priority src={EyeClosed} alt='eye-closed' className={styles.eye} onClick={() => setShow(true)} width={35} height={35} />
-						) : (
-							<Image priority src={EyeOpen} alt='eye-open' className={styles.eye} onClick={() => setShow(false)} width={35} height={35} />
-						)}
-					</div>
-					<Link href='/home'>
-						<Button className={styles.btn}>Entrar</Button>
-					</Link>
-					<Link href={'/sign-up'}>
-						<Button className={styles.btnRegister}>Cadastre-se</Button>
-					</Link>
-				</FormControl>
-			</section>
-		</main>
-	);
+    async function onSubmithanlder(data: IForm) {
+        try {
+            const response = await api.post('/login', input);
+            setUser(response.data.user);
+            notify();
+            reset();
+            setTimeout(() => {
+                router.push('/home');
+            }, 1500);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm<IForm>({ resolver: yupResolver(schema) });
+    return (
+        <main className={styles.main}>
+            <section>
+                <Image priority src={Logo} alt="Logo" className={styles.logo} />
+                <h2>Conecte-se</h2>
+                <form onSubmit={handleSubmit(onSubmithanlder)}>
+                    <FormControl isInvalid={!!errors?.email?.message}>
+                        <FormLabel style={{ fontSize: '1.4rem' }}>Email</FormLabel>
+                        <div style={{ position: 'relative' }}>
+                            <Input
+                                className={styles.input}
+                                type="email"
+                                {...register('email')}
+                                value={input.email}
+                                onChange={handleInputChange}
+                            />
+                            {errors && (
+                                <FormErrorMessage className={styles.errorMessage}>
+                                    {errors.email?.message}
+                                </FormErrorMessage>
+                            )}
+                        </div>
+                    </FormControl>
+                    <FormControl isInvalid={!!errors?.password?.message}>
+                        <FormLabel style={{ fontSize: '1.4rem' }}>Senha</FormLabel>
+                        <div style={{ position: 'relative' }}>
+                            <Input
+                                className={styles.input}
+                                type={!showPassword ? 'password' : 'text'}
+                                {...register('password')}
+                                value={input.password}
+                                onChange={handleInputChange}
+                            />
+                            {errors && (
+                                <FormErrorMessage className={styles.errorMessage}>
+                                    {errors.password?.message}
+                                </FormErrorMessage>
+                            )}
+                            {ShowEye(styles.eye, showPassword, setShowPassword)}
+                        </div>
+                    </FormControl>
+                    <Button className={styles.btn} type="submit">
+                        Entrar
+                    </Button>
+                    <Link href={'/sign-up'}>
+                        <Button className={styles.btnRegister}>Cadastre-se</Button>
+                    </Link>
+                    <Toaster position="top-center" reverseOrder={false} />
+                </form>
+            </section>
+        </main>
+    );
 }
