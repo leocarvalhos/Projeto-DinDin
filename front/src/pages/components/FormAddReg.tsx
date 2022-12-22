@@ -31,19 +31,28 @@ export default function FormAddReg({ setShowAddReg }: Props) {
     const {
         register,
         handleSubmit,
+        setValue,
         formState: { errors },
         reset,
     } = useForm<IFormReg>({ resolver: yupResolver(schema) });
+
     const { user }: any = useStorage();
     const [categories, setCategories] = useState([]);
     const [input, setInput] = useState<IFormReg>({
-        value: ' ',
+        value: 0,
         category_id: '',
         date: new Date(),
         description: '',
         type: 'entrada',
     });
 
+    function handleInputValueChange(values: any) {
+        const numberValue: number = isNaN(values.floatValue)
+            ? undefined
+            : values.floatValue;
+        setInput({ ...input, value: numberValue });
+        setValue('value', numberValue);
+    }
     function handleInputChange(e: any) {
         setInput({ ...input, [e.target.name]: e.target.value });
     }
@@ -116,17 +125,17 @@ export default function FormAddReg({ setShowAddReg }: Props) {
                         <FormLabel style={{ fontSize: '1.4rem' }}>Valor</FormLabel>
                         <div style={{ position: 'relative' }}>
                             <Input
+                                value={input.value}
+                                {...register('value')}
                                 as={CurrencyFormat}
                                 prefix={'R$ '}
-                                {...register('value')}
                                 id="field-:rd:"
                                 thousandSeparator={'.'}
-                                milSpacing={true}
                                 className={styles.input}
                                 decimalSeparator={','}
                                 decimalScale={2}
                                 fixedDecimalScale={true}
-                                onChange={handleInputChange}
+                                onValueChange={handleInputValueChange}
                             />
                             {errors.value && (
                                 <FormErrorMessage className={styles.errors}>

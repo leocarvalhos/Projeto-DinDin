@@ -15,11 +15,11 @@ export class TransactionController {
 
         if (type !== 'entrada' && type !== 'saida') return res.status(400).json({ message: "Apenas entrada e saída são tipos validos!" })
 
-        const valueFormated = Number(value.split(' ')[1].replace(/\./g, '').replace(',', '.'))
+
         try {
             const response = await transactionRepository.insert({
                 description,
-                value: valueFormated,
+                value,
                 date: date,
                 category: category_id,
                 user: id,
@@ -115,7 +115,7 @@ export class TransactionController {
         const { description, value, type, date, category_id } = req.body
         const { id }: any = req.params
         const { id: idUser }: any = req.user
-        const valueFormated = Number(value.split(' ')[1].replace(/\./g, '').replace(',', '.'))
+
 
         try {
             if (!description && !value && !type && !date && !category_id) {
@@ -124,7 +124,7 @@ export class TransactionController {
 
             await transactionRepository.update({ id, user: idUser }, {
                 description,
-                value: valueFormated,
+                value,
                 date,
                 type,
                 category: category_id,

@@ -1,5 +1,5 @@
 export interface IFormReg {
-    value: string;
+    value: number;
     category_id: number | string;
     date: Date;
     description: string;
