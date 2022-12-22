@@ -6,19 +6,19 @@ import {
     Input,
     Select,
 } from '@chakra-ui/react';
-import CurrencyFormat from 'react-currency-format';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { set, useForm } from 'react-hook-form';
 import Image from 'next/image';
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import CurrencyFormat from 'react-currency-format';
+import { useForm } from 'react-hook-form';
+import toast, { Toaster } from 'react-hot-toast';
 import X from '../../../public/images/x.svg';
 import api from '../../api';
 import useStorage from '../../hooks/useStorage';
 import { IFormReg } from '../../interfaces/IFormReg.type';
+import schema from '../../schemas/addTransaction.schema';
 import styles from '../../styles/components/AddReg.module.sass';
 import headers from '../../utils/Token';
-import schema from '../../schemas/addTransaction.schema';
-import toast, { Toaster } from 'react-hot-toast';
 interface Category {
     id: number;
     description: string;
@@ -36,9 +36,6 @@ export default function FormAddReg({ setShowAddReg }: Props) {
     } = useForm<IFormReg>({ resolver: yupResolver(schema) });
     const { user }: any = useStorage();
     const [categories, setCategories] = useState([]);
-    const [error, setError] = useState<boolean>(false);
-    const [message, setMessage] = useState<string>('');
-    const [show, setShow] = useState<boolean>(false);
     const [input, setInput] = useState<IFormReg>({
         value: ' ',
         category_id: '',
@@ -51,9 +48,6 @@ export default function FormAddReg({ setShowAddReg }: Props) {
         setInput({ ...input, [e.target.name]: e.target.value });
     }
 
-    function handlerInputType(e: any) {
-        setInput({ ...input, [e.target.name]: e.target.value });
-    }
     async function getCategories() {
         try {
             const response = await api.get('/categories', headers(user.token));
@@ -65,7 +59,6 @@ export default function FormAddReg({ setShowAddReg }: Props) {
 
     async function createTransaction(data: IFormReg) {
         try {
-            if (input.value === '') return setError(true);
             await api.post('/transaction', input, headers(user.token));
             notify();
             reset();
@@ -76,7 +69,7 @@ export default function FormAddReg({ setShowAddReg }: Props) {
     useEffect(() => {
         getCategories();
     }, []);
-
+    console.log(input);
     return (
         <div className={styles.container}>
             <main>
@@ -88,7 +81,7 @@ export default function FormAddReg({ setShowAddReg }: Props) {
                     onClick={() => setShowAddReg(false)}
                 />
                 <form onSubmit={handleSubmit(createTransaction)}>
-                    <FormControl isInvalid={error}>
+                    <FormControl>
                         <div className={styles.buttons}>
                             <Button
                                 style={{
@@ -97,7 +90,7 @@ export default function FormAddReg({ setShowAddReg }: Props) {
                                         input.type === 'entrada' ? '#3A9FF1' : '#B9B9B9'
                                     }  `,
                                 }}
-                                onClick={handlerInputType}
+                                onClick={handleInputChange}
                                 name="type"
                                 value="entrada"
                             >
@@ -110,7 +103,7 @@ export default function FormAddReg({ setShowAddReg }: Props) {
                                         input.type === 'saida' ? '#FF576B' : '#B9B9B9'
                                     }  `,
                                 }}
-                                onClick={handlerInputType}
+                                onClick={handleInputChange}
                                 name="type"
                                 value="saida"
                             >
@@ -119,26 +112,25 @@ export default function FormAddReg({ setShowAddReg }: Props) {
                         </div>
                     </FormControl>
 
-                    <FormControl isInvalid={error}>
+                    <FormControl isInvalid={!!errors?.value?.message}>
                         <FormLabel style={{ fontSize: '1.4rem' }}>Valor</FormLabel>
                         <div style={{ position: 'relative' }}>
                             <Input
                                 as={CurrencyFormat}
-                                name="value"
                                 prefix={'R$ '}
+                                {...register('value')}
                                 id="field-:rd:"
                                 thousandSeparator={'.'}
-                                milspacing={true}
+                                milSpacing={true}
                                 className={styles.input}
                                 decimalSeparator={','}
                                 decimalScale={2}
                                 fixedDecimalScale={true}
                                 onChange={handleInputChange}
-                                value={input.value}
                             />
-                            {error && (
+                            {errors.value && (
                                 <FormErrorMessage className={styles.errors}>
-                                    Todos os camps são obrigatórios
+                                    {errors.value.message}
                                 </FormErrorMessage>
                             )}
                         </div>
@@ -164,7 +156,7 @@ export default function FormAddReg({ setShowAddReg }: Props) {
                             {errors.category_id && (
                                 <FormErrorMessage
                                     className={styles.errors}
-                                    style={{ bottom: '-15px' }}
+                                    style={{ bottom: '-18px' }}
                                 >
                                     {errors.category_id.message}
                                 </FormErrorMessage>

@@ -49,7 +49,7 @@ export default function FormIN() {
         } catch (error: any) {
             setBtnLogin(false);
             console.log(error);
-            if (error.response.data.message) {
+            if (error.response?.data?.message) {
                 setErrorBack(error.response.data.message);
             }
         }
