@@ -11,6 +11,7 @@ type JwtPayload = {
 export default async function authMiddleware(req: Request, res: Response, next: NextFunction) {
     const { authorization } = req.headers
 
+
     if (!authorization) return res.status(401).json({ message: "Para acessar este recurso um token de autenticação válido deve ser enviado." })
 
     const token = authorization.split(" ")[1]

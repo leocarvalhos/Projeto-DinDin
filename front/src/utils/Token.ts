@@ -1,4 +1,5 @@
-export default function Token(token: string) {
+export default function headers(token: string): any {
     const headers = { authorization: `Bearer ${token}` }
-    return headers
+
+    return { headers }
 }

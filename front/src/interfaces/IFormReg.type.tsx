@@ -1,7 +1,7 @@
 export interface IFormReg {
-	value: number;
-	category: string;
-	date: Date;
-	description: string;
-	type: string;
+    value: string;
+    category_id: number | string;
+    date: Date;
+    description: string;
+    type: string;
 }

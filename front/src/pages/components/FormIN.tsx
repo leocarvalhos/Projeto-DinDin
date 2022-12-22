@@ -9,8 +9,10 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast, { Toaster } from 'react-hot-toast';
 import Logo from '../../../public/images/logoViolet.svg';
 import api from '../../api';
 import useStorage from '../../hooks/useStorage';
@@ -18,8 +20,7 @@ import IForm from '../../interfaces/IForm.type';
 import schema from '../../schemas/login.schema';
 import styles from '../../styles/components/FormIN.module.sass';
 import ShowEye from '../../utils/ShowEye';
-import { useRouter } from 'next/router';
-import toast, { Toaster } from 'react-hot-toast';
+
 export default function FormIN() {
     const [btnLogin, setBtnLogin] = useState(false);
     const [errorBack, setErrorBack] = useState(false);
@@ -48,16 +49,18 @@ export default function FormIN() {
         } catch (error: any) {
             setBtnLogin(false);
             console.log(error);
-            setErrorBack(error.response.data.message);
+            if (error.response.data.message) {
+                setErrorBack(error.response.data.message);
+            }
         }
     }
-
     const {
         register,
         handleSubmit,
         formState: { errors },
         reset,
     } = useForm<IForm>({ resolver: yupResolver(schema) });
+
     return (
         <main className={styles.main}>
             <section>

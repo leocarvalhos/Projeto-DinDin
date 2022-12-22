@@ -1,15 +1,12 @@
 import { Request, Response } from "express"
-import moment from 'moment'
 import { Any } from 'typeorm'
 import { transactionRepository } from '../repositories/transactionRepository'
 
 
-function formatDate(date: string) {
-    return moment(date, "DD/MM/YYYY").format()
-}
+
 export class TransactionController {
     async createTransaction(req: Request, res: Response) {
-        const { description, value, date, category_id, type } = req.body
+        let { description, value, date, category_id, type } = req.body
         const { id }: any = req.user
 
         if (!description || !value || !type || !date || !category_id) {
@@ -18,11 +15,12 @@ export class TransactionController {
 
         if (type !== 'entrada' && type !== 'saida') return res.status(400).json({ message: "Apenas entrada e saída são tipos validos!" })
 
+        const valueFormated = Number(value.split(' ')[1].replace(/\./g, '').replace(',', '.'))
         try {
             const response = await transactionRepository.insert({
                 description,
-                value,
-                date: formatDate(date),
+                value: valueFormated,
+                date: date,
                 category: category_id,
                 user: id,
                 type,
@@ -117,6 +115,7 @@ export class TransactionController {
         const { description, value, type, date, category_id } = req.body
         const { id }: any = req.params
         const { id: idUser }: any = req.user
+        const valueFormated = Number(value.split(' ')[1].replace(/\./g, '').replace(',', '.'))
 
         try {
             if (!description && !value && !type && !date && !category_id) {
@@ -125,8 +124,8 @@ export class TransactionController {
 
             await transactionRepository.update({ id, user: idUser }, {
                 description,
-                value,
-                date: formatDate(date),
+                value: valueFormated,
+                date,
                 type,
                 category: category_id,
             })
@@ -157,7 +156,6 @@ export class TransactionController {
         const { id }: any = req.user
 
         try {
-
             const { profit } = await transactionRepository.createQueryBuilder("transactions")
                 .select("SUM(transactions.value) as profit")
                 .where("transactions.user = :id", { id })
