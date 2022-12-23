@@ -25,8 +25,9 @@ interface Category {
 }
 interface Props {
     setShowAddReg: Dispatch<SetStateAction<boolean>>;
+    categories: any;
 }
-export default function FormAddReg({ setShowAddReg }: Props) {
+export default function FormAddReg({ setShowAddReg, categories }: Props) {
     const notify = () => toast.success('Transação criada com sucesso!');
     const {
         register,
@@ -37,9 +38,8 @@ export default function FormAddReg({ setShowAddReg }: Props) {
     } = useForm<IFormReg>({ resolver: yupResolver(schema) });
 
     const { user }: any = useStorage();
-    const [categories, setCategories] = useState([]);
     const [input, setInput] = useState<IFormReg>({
-        value: 0,
+        value: undefined,
         category_id: '',
         date: new Date(),
         description: '',
@@ -57,15 +57,6 @@ export default function FormAddReg({ setShowAddReg }: Props) {
         setInput({ ...input, [e.target.name]: e.target.value });
     }
 
-    async function getCategories() {
-        try {
-            const response = await api.get('/categories', headers(user.token));
-            setCategories(response.data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
     async function createTransaction(data: IFormReg) {
         try {
             await api.post('/transaction', input, headers(user.token));
@@ -75,10 +66,7 @@ export default function FormAddReg({ setShowAddReg }: Props) {
             console.log(error);
         }
     }
-    useEffect(() => {
-        getCategories();
-    }, []);
-    console.log(input);
+
     return (
         <div className={styles.container}>
             <main>
@@ -128,6 +116,7 @@ export default function FormAddReg({ setShowAddReg }: Props) {
                                 value={input.value}
                                 {...register('value')}
                                 as={CurrencyFormat}
+                                allowNegative={false}
                                 prefix={'R$ '}
                                 id="field-:rd:"
                                 thousandSeparator={'.'}
@@ -136,6 +125,7 @@ export default function FormAddReg({ setShowAddReg }: Props) {
                                 decimalScale={2}
                                 fixedDecimalScale={true}
                                 onValueChange={handleInputValueChange}
+                                placeholder="Ex: R$ 400,00"
                             />
                             {errors.value && (
                                 <FormErrorMessage className={styles.errors}>
@@ -201,7 +191,7 @@ export default function FormAddReg({ setShowAddReg }: Props) {
                                 type="text"
                                 {...register('description')}
                                 onChange={handleInputChange}
-                                placeholder="Canetas"
+                                placeholder="Ex: Material escolar"
                             />
                             {errors.description && (
                                 <FormErrorMessage className={styles.errors}>

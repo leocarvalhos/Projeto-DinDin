@@ -6,11 +6,13 @@ import Out from '../../../public/images/out.svg';
 import Profile from '../../../public/images/profile.svg';
 import styles from '../../styles/components/Header.module.sass';
 import { Dispatch, SetStateAction } from 'react';
+import useStorage from '../../hooks/useStorage';
 interface Props {
     setShowCoin: Dispatch<SetStateAction<boolean>>;
     setShowModal: Dispatch<SetStateAction<boolean>>;
 }
 export default function Header({ setShowModal, setShowCoin }: Props) {
+    const { remove }: any = useStorage();
     return (
         <main className={styles.container}>
             <div className={styles.images}>
@@ -42,6 +44,9 @@ export default function Header({ setShowModal, setShowCoin }: Props) {
                             width={27}
                             height={27}
                             style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                                remove();
+                            }}
                         />
                     </Link>
                 </div>

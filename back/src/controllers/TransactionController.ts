@@ -36,6 +36,7 @@ export class TransactionController {
         const { id } = req.user
         const { filter }: any = req.query
         try {
+            console.log(filter)
             if (filter) {
                 const response = await transactionRepository.find({
                     select: {

@@ -15,20 +15,39 @@ export default function Home() {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [showCoin, setShowCoin] = useState<boolean>(false);
     const [showAddReg, setShowAddReg] = useState<boolean>(false);
+    const [categories, setCategories] = useState([]);
+    const [transactions, setTransactions]: any = useState([]);
     const [value, setValue] = useState({});
     const { user }: any = useStorage();
     async function getValues() {
         try {
-            const response = await api.get('/extract', headers(user.token));
-            setValue(response.data);
+            const { data } = await api.get('/extract', headers(user.token));
+            setValue(data);
         } catch (error) {
             console.log(error);
         }
     }
+    async function getCategories() {
+        try {
+            const { data } = await api.get('/categories', headers(user.token));
+            setCategories(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    async function getTransactions() {
+        try {
+            const { data } = await api.get('/transactions', headers(user.token));
+            setTransactions(data);
+        } catch (error) {}
+    }
     useEffect(() => {
         getValues();
-    });
+        getCategories();
+        getTransactions();
+    }, []);
 
+    console.log(transactions);
     return (
         <>
             <Header setShowModal={setShowModal} setShowCoin={setShowCoin} />
@@ -49,14 +68,20 @@ export default function Home() {
                 )}
                 {showAddReg && (
                     <div className={styles.modal}>
-                        <FormAddReg setShowAddReg={setShowAddReg} />
+                        <FormAddReg
+                            setShowAddReg={setShowAddReg}
+                            categories={categories}
+                        />
                     </div>
                 )}
 
                 <div className={styles.divResume}>
                     <div className={styles.filterTable}>
-                        <Filter />
-                        <Table />
+                        <Filter
+                            categories={categories}
+                            setTransactions={setTransactions}
+                        />
+                        <Table transactions={transactions} />
                     </div>
                     <ResumeDesk setShowAddReg={setShowAddReg} />
                 </div>
