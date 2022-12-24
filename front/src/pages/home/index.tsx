@@ -10,8 +10,10 @@ import Table from '../components/Table';
 import headers from '../../utils/Token';
 import useStorage from '../../hooks/useStorage';
 import api from '../../api';
+import { useRouter } from 'next/router';
 
 export default function Home() {
+    const router = useRouter();
     const [showModal, setShowModal] = useState<boolean>(false);
     const [showCoin, setShowCoin] = useState<boolean>(false);
     const [showAddReg, setShowAddReg] = useState<boolean>(false);
@@ -19,6 +21,11 @@ export default function Home() {
     const [transactions, setTransactions]: any = useState([]);
     const [value, setValue] = useState({});
     const { user }: any = useStorage();
+    useEffect(() => {
+        if (!user.token) {
+            router.replace('/');
+        }
+    }, []);
     async function getValues() {
         try {
             const { data } = await api.get('/extract', headers(user.token));
@@ -71,6 +78,7 @@ export default function Home() {
                         <FormAddReg
                             setShowAddReg={setShowAddReg}
                             categories={categories}
+                            transactions={transactions}
                         />
                     </div>
                 )}
@@ -80,6 +88,7 @@ export default function Home() {
                         <Filter
                             categories={categories}
                             setTransactions={setTransactions}
+                            getTransactions={getTransactions}
                         />
                         <Table transactions={transactions} />
                     </div>

@@ -26,8 +26,9 @@ interface Category {
 interface Props {
     setShowAddReg: Dispatch<SetStateAction<boolean>>;
     categories: any;
+    transactions: any;
 }
-export default function FormAddReg({ setShowAddReg, categories }: Props) {
+export default function FormAddReg({ setShowAddReg, categories, transactions }: Props) {
     const notify = () => toast.success('Transação criada com sucesso!');
     const {
         register,
@@ -62,6 +63,7 @@ export default function FormAddReg({ setShowAddReg, categories }: Props) {
             await api.post('/transaction', input, headers(user.token));
             notify();
             reset();
+            transactions();
         } catch (error) {
             console.log(error);
         }

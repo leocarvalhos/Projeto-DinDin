@@ -1,32 +1,15 @@
-import { Thead, Tbody, Tr, Th, Td, TableContainer, Table } from '@chakra-ui/react';
-import BtnEdit from '../../../public/images/btn-edit.svg';
+import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import BtnDelete from '../../../public/images/btn-deleted.svg';
+import BtnEdit from '../../../public/images/btn-edit.svg';
 
-import styles from '../../styles/components/Table.module.sass';
 import Image from 'next/image';
+import styles from '../../styles/components/Table.module.sass';
+import dateFormated from '../../utils/dateFormated';
+import formatedCurrency from '../../utils/formatedCurrency';
 interface Props {
     transactions: any;
 }
-function dateFormated(date: any) {
-    switch (date) {
-        case 0:
-            return 'Domingo';
-        case 1:
-            return 'Segunda-Feira';
-        case 2:
-            return 'Terça-Feira';
-        case 3:
-            return 'Quarta-Feira';
-        case 4:
-            return 'Quinta-Feira';
-        case 5:
-            return 'Sexta-Feira';
-        case 6:
-            return 'Sábado';
-    }
-}
 export default function Tables({ transactions }: Props) {
-    console.log(transactions);
     return (
         <div className={styles.container}>
             <main>
@@ -58,7 +41,18 @@ export default function Tables({ transactions }: Props) {
                                         </Td>
                                         <Td>{transaction.description}</Td>
                                         <Td>{transaction.category.description}</Td>
-                                        <Td>{transaction.value}</Td>
+                                        <Td
+                                            style={{
+                                                color: `${
+                                                    transaction.type === 'entrada'
+                                                        ? '#7B61FF'
+                                                        : '#FA8C10'
+                                                }`,
+                                                fontWeight: '700',
+                                            }}
+                                        >
+                                            {formatedCurrency(transaction.value)}
+                                        </Td>
                                         <Td className={styles.btn}>
                                             <Image src={BtnEdit} alt="edit" />
                                             <Image src={BtnDelete} alt="delete" />

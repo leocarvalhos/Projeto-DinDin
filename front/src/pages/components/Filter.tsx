@@ -17,8 +17,9 @@ interface Category {
 interface Props {
     categories: any;
     setTransactions: Dispatch<SetStateAction<Array<any>>>;
+    getTransactions: any;
 }
-export default function Filter({ categories, setTransactions }: Props) {
+export default function Filter({ categories, setTransactions, getTransactions }: Props) {
     const searchParams = useSearchParams();
     const { user }: any = useStorage();
     const [showCard, setShowCard] = useState<boolean>(true);
@@ -32,6 +33,9 @@ export default function Filter({ categories, setTransactions }: Props) {
         } else {
             setParams([...params, category.description]);
         }
+    }
+    function cleanFilters() {
+        setParams([]);
     }
 
     async function getTransactionsWithFilter() {
@@ -47,7 +51,6 @@ export default function Filter({ categories, setTransactions }: Props) {
             console.log(error);
         }
     }
-    console.log(params);
     return (
         <div className={styles.container}>
             <Button className={styles.btnFilter} onClick={() => setShowCard(!showCard)}>
@@ -93,7 +96,7 @@ export default function Filter({ categories, setTransactions }: Props) {
                                 className={styles.btnInactive}
                                 onClick={() => {
                                     setParams([]);
-                                    getTransactionsWithFilter();
+                                    getTransactions();
                                 }}
                             >
                                 Limpar Filtros
