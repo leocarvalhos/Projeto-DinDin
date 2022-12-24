@@ -144,7 +144,9 @@ export default function FormAddReg({ setShowAddReg, categories }: Props) {
                                 style={{ fontSize: '1.4rem', display: 'flex' }}
                                 onChange={handleInputChange}
                             >
-                                {categories.map((category: Category) => {
+                                {categories?.map((category: Category) => {
+                                    console.log(category);
+
                                     return (
                                         <option key={category.id} value={category.id}>
                                             {category.description}

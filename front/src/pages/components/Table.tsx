@@ -43,7 +43,7 @@ export default function Tables({ transactions }: Props) {
                             </Tr>
                         </Thead>
                         <Tbody className={styles.tBody}>
-                            {transactions.map((transaction: any) => {
+                            {transactions?.map((transaction: any) => {
                                 return (
                                     <Tr key={transaction.id}>
                                         <Td>

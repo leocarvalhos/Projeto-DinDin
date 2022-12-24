@@ -29,19 +29,19 @@ export default function Resume({ setShowCoin, setShowAddReg, value }: Props) {
                 <strong>
                     Entradas
                     <span className={styles.profit}>{`R$ ${Number(
-                        value.profit
+                        value?.profit
                     ).toLocaleString('pt-br', { minimumFractionDigits: 2 })}`}</span>
                 </strong>
                 <strong className={styles.border}>
                     Saídas
                     <span className={styles.expenses}>{`R$ ${Number(
-                        value.expenses
+                        value?.expenses
                     ).toLocaleString('pt-br', { minimumFractionDigits: 2 })}`}</span>
                 </strong>
                 <strong>
                     Saldo
                     <span className={styles.balance}>{`R$ ${Number(
-                        value.balance
+                        value?.balance
                     ).toLocaleString('pt-br', { minimumFractionDigits: 2 })}`}</span>
                 </strong>
                 <Button

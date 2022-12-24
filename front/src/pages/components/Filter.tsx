@@ -61,7 +61,7 @@ export default function Filter({ categories, setTransactions }: Props) {
                             <Text className={styles.text}>Categoria</Text>
                         </CardHeader>
                         <CardBody className={styles.cardBody}>
-                            {categories.map((category: Category) => {
+                            {categories?.map((category: Category) => {
                                 return (
                                     <Button
                                         key={category.id}
