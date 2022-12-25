@@ -13,20 +13,22 @@ import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
-import Logo from '../../../public/images/logoViolet.svg';
-import api from '../../api';
-import useStorage from '../../hooks/useStorage';
-import IForm from '../../interfaces/IForm.type';
-import schema from '../../schemas/login.schema';
-import styles from '../../styles/components/FormIN.module.sass';
-import ShowEye from '../../utils/ShowEye';
+import Logo from '../../../../public/images/logoViolet.svg';
+import api from '../../../api';
+import useStorage from '../../../hooks/useStorage';
+import IForm from '../../../interfaces/IForm.type';
+import schema from '../../../schemas/login.schema';
+import styles from './styles.module.sass';
+
+import ShowEye from '../../../utils/ShowEye';
+import IStorage from '../../../interfaces/IStorage.type';
 
 export default function FormIN() {
-    const [btnLogin, setBtnLogin] = useState(false);
-    const [errorBack, setErrorBack] = useState(false);
     const router = useRouter();
+    const { setUser }: IStorage = useStorage();
     const notify = () => toast.success('Bem vindo(a) ao DinDin!');
-    const { setUser }: any = useStorage();
+    const [btnLogin, setBtnLogin] = useState<boolean>(false);
+    const [errorBack, setErrorBack] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [input, setInput] = useState<IForm>({
         email: '',
@@ -40,7 +42,7 @@ export default function FormIN() {
     async function onSubmithanlder(data: IForm) {
         try {
             const response = await api.post('/login', input);
-            setUser(response.data.user);
+            setUser!(response.data.user);
             notify();
             reset();
             setTimeout(() => {

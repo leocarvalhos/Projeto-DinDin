@@ -8,28 +8,40 @@ import {
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Image from 'next/image';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import {
+    ChangeEvent,
+    Dispatch,
+    MouseEvent,
+    SetStateAction,
+    SyntheticEvent,
+    useEffect,
+    useState,
+} from 'react';
 import CurrencyFormat from 'react-currency-format';
 import { useForm } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
-import X from '../../../public/images/x.svg';
-import api from '../../api';
-import useStorage from '../../hooks/useStorage';
-import { IFormReg } from '../../interfaces/IFormReg.type';
-import schema from '../../schemas/addTransaction.schema';
-import styles from '../../styles/components/AddReg.module.sass';
-import headers from '../../utils/Token';
-interface Category {
-    id: number;
-    description: string;
-}
+import X from '../../../../public/images/x.svg';
+import api from '../../../api';
+import useStorage from '../../../hooks/useStorage';
+import { IFormReg } from '../../../interfaces/IFormReg.type';
+import schema from '../../../schemas/addTransaction.schema';
+import styles from './styles.module.sass';
+import headers from '../../../utils/Token';
+import ICategory from '../../../interfaces/ICategory.type';
+import IStorage from '../../../interfaces/IStorage.type';
+
 interface Props {
     setShowAddReg: Dispatch<SetStateAction<boolean>>;
-    categories: any;
-    transactions: any;
+    categories: ICategory[];
+    getTransactions(): Promise<void>;
 }
-export default function FormAddReg({ setShowAddReg, categories, transactions }: Props) {
+export default function FormAddReg({
+    setShowAddReg,
+    categories,
+    getTransactions,
+}: Props) {
     const notify = () => toast.success('Transação criada com sucesso!');
+    const { user }: IStorage = useStorage();
     const {
         register,
         handleSubmit,
@@ -38,7 +50,6 @@ export default function FormAddReg({ setShowAddReg, categories, transactions }: 
         reset,
     } = useForm<IFormReg>({ resolver: yupResolver(schema) });
 
-    const { user }: any = useStorage();
     const [input, setInput] = useState<IFormReg>({
         value: undefined,
         category_id: '',
@@ -48,30 +59,35 @@ export default function FormAddReg({ setShowAddReg, categories, transactions }: 
     });
 
     function handleInputValueChange(values: any) {
-        const numberValue: number = isNaN(values.floatValue)
+        const numberValue: number = isNaN(values?.floatValue)
             ? undefined
             : values.floatValue;
         setInput({ ...input, value: numberValue });
         setValue('value', numberValue);
     }
-    function handleInputChange(e: any) {
-        setInput({ ...input, [e.target.name]: e.target.value });
+
+    function handleInputsForm(
+        e:
+            | ChangeEvent<HTMLInputElement | HTMLSelectElement>
+            | MouseEvent<HTMLButtonElement>
+    ) {
+        setInput({ ...input, [e.currentTarget.name]: e.currentTarget.value });
     }
 
     async function createTransaction(data: IFormReg) {
         try {
-            await api.post('/transaction', input, headers(user.token));
+            await api.post('/transaction', input, headers(user?.token));
             notify();
             reset();
-            transactions();
+            getTransactions();
         } catch (error) {
             console.log(error);
         }
     }
-
+    console.log(input);
     return (
-        <div className={styles.container}>
-            <main>
+        <main className={styles.container}>
+            <section>
                 <h1>Adicionar Registro</h1>
                 <Image
                     src={X}
@@ -89,7 +105,7 @@ export default function FormAddReg({ setShowAddReg, categories, transactions }: 
                                         input.type === 'entrada' ? '#3A9FF1' : '#B9B9B9'
                                     }  `,
                                 }}
-                                onClick={handleInputChange}
+                                onClick={handleInputsForm}
                                 name="type"
                                 value="entrada"
                             >
@@ -102,7 +118,7 @@ export default function FormAddReg({ setShowAddReg, categories, transactions }: 
                                         input.type === 'saida' ? '#FF576B' : '#B9B9B9'
                                     }  `,
                                 }}
-                                onClick={handleInputChange}
+                                onClick={handleInputsForm}
                                 name="type"
                                 value="saida"
                             >
@@ -144,11 +160,9 @@ export default function FormAddReg({ setShowAddReg, categories, transactions }: 
                                 placeholder="Seleciona a categoria"
                                 {...register('category_id')}
                                 style={{ fontSize: '1.4rem', display: 'flex' }}
-                                onChange={handleInputChange}
+                                onChange={handleInputsForm}
                             >
-                                {categories?.map((category: Category) => {
-                                    console.log(category);
-
+                                {categories?.map((category: ICategory) => {
                                     return (
                                         <option key={category.id} value={category.id}>
                                             {category.description}
@@ -176,7 +190,7 @@ export default function FormAddReg({ setShowAddReg, categories, transactions }: 
                                 {...register('date')}
                                 min="2000-01-01"
                                 max="3000-12-31"
-                                onChange={handleInputChange}
+                                onChange={handleInputsForm}
                                 placeholder="Ex: 01/01/2023"
                             />
                             {errors.date && (
@@ -194,7 +208,7 @@ export default function FormAddReg({ setShowAddReg, categories, transactions }: 
                                 className={styles.input}
                                 type="text"
                                 {...register('description')}
-                                onChange={handleInputChange}
+                                onChange={handleInputsForm}
                                 placeholder="Ex: Material escolar"
                             />
                             {errors.description && (
@@ -210,7 +224,7 @@ export default function FormAddReg({ setShowAddReg, categories, transactions }: 
                     </Button>
                     <Toaster position="top-center" reverseOrder={false} />
                 </form>
-            </main>
-        </div>
+            </section>
+        </main>
     );
 }

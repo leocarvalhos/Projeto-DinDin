@@ -1,8 +1,8 @@
 import { Button } from '@chakra-ui/react';
 import Image from 'next/image';
 import { Dispatch, SetStateAction } from 'react';
-import X from '../../../public/images/x.svg';
-import styles from '../../styles/components/Resume.module.sass';
+import X from '../../../../public/images/x.svg';
+import styles from './styles.module.sass';
 
 interface Props {
     setShowCoin: Dispatch<SetStateAction<boolean>>;

@@ -1,41 +1,36 @@
 import { Button, Card, CardBody, CardFooter, CardHeader, Text } from '@chakra-ui/react';
 import Image from 'next/image';
-import { Dispatch, SetStateAction, useState } from 'react';
-import Plus from '../../../public/images/+.svg';
-import FilterIcon from '../../../public/images/filter-icon.svg';
-import X from '../../../public/images/littleX.svg';
-import api from '../../api';
-import styles from '../../styles/components/Filter.module.sass';
-import headers from '../../utils/Token';
-import useStorage from '../../hooks/useStorage';
-import { useSearchParams } from 'next/navigation';
 import queryString from 'query-string';
-interface Category {
-    id: number;
-    description: string;
-}
+import { Dispatch, MouseEvent, SetStateAction, useState } from 'react';
+import Plus from '../../../../public/images/+.svg';
+import FilterIcon from '../../../../public/images/filter-icon.svg';
+import X from '../../../../public/images/littleX.svg';
+import api from '../../../api';
+import useStorage from '../../../hooks/useStorage';
+import ICategory from '../../../interfaces/ICategory.type';
+import IStorage from '../../../interfaces/IStorage.type';
+import ITransactions from '../../../interfaces/ITransactions.type';
+import headers from '../../../utils/Token';
+import styles from './styles.module.sass';
+
 interface Props {
-    categories: any;
-    setTransactions: Dispatch<SetStateAction<Array<any>>>;
-    getTransactions: any;
+    categories: ICategory[];
+    setTransactions: Dispatch<SetStateAction<ITransactions[]>>;
+    getTransactions(): void;
 }
 export default function Filter({ categories, setTransactions, getTransactions }: Props) {
-    const searchParams = useSearchParams();
-    const { user }: any = useStorage();
+    const { user }: IStorage = useStorage();
     const [showCard, setShowCard] = useState<boolean>(true);
-    const [params, setParams]: any = useState([]);
+    const [params, setParams] = useState<String[]>([]);
 
-    function handleParams(e: any, category: any) {
-        if (params && params.includes(e.target.value)) {
-            setParams((params: any) =>
-                params.filter((element: any) => element !== e.target.value)
+    function handleParams(e: MouseEvent<HTMLButtonElement>, category: ICategory) {
+        if (params && params.includes(e.currentTarget.value)) {
+            setParams((params) =>
+                params.filter((element) => element !== e.currentTarget.value)
             );
         } else {
             setParams([...params, category.description]);
         }
-    }
-    function cleanFilters() {
-        setParams([]);
     }
 
     async function getTransactionsWithFilter() {
@@ -45,7 +40,10 @@ export default function Filter({ categories, setTransactions, getTransactions }:
                 { arrayFormat: 'bracket' }
             );
 
-            const { data } = await api.get(`/transactions?${query}`, headers(user.token));
+            const { data } = await api.get(
+                `/transactions?${query}`,
+                headers(user?.token)
+            );
             setTransactions(data);
         } catch (error) {
             console.log(error);
@@ -64,7 +62,7 @@ export default function Filter({ categories, setTransactions, getTransactions }:
                             <Text className={styles.text}>Categoria</Text>
                         </CardHeader>
                         <CardBody className={styles.cardBody}>
-                            {categories?.map((category: Category) => {
+                            {categories?.map((category: ICategory) => {
                                 return (
                                     <Button
                                         key={category.id}

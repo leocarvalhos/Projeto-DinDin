@@ -1,6 +1,5 @@
 import { useLocalStorage } from 'react-use';
-import IStorage from '../interfaces/IStorage.type';
-export default function useValuesProvider(): IStorage {
+export default function useValuesProvider() {
     const [user, setUser, remove] = useLocalStorage('user', {});
 
     return {

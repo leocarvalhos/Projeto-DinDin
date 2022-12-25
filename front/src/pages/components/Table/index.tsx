@@ -1,13 +1,13 @@
 import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
-import BtnDelete from '../../../public/images/btn-deleted.svg';
-import BtnEdit from '../../../public/images/btn-edit.svg';
-
 import Image from 'next/image';
-import styles from '../../styles/components/Table.module.sass';
-import dateFormated from '../../utils/dateFormated';
-import formatedCurrency from '../../utils/formatedCurrency';
+import BtnDelete from '../../../../public/images/btn-deleted.svg';
+import BtnEdit from '../../../../public/images/btn-edit.svg';
+import ITransactions from '../../../interfaces/ITransactions.type';
+import dateFormated from '../../../utils/dateFormated';
+import formatedCurrency from '../../../utils/formatedCurrency';
+import styles from './styles.module.sass';
 interface Props {
-    transactions: any;
+    transactions: ITransactions[];
 }
 export default function Tables({ transactions }: Props) {
     return (
@@ -26,7 +26,7 @@ export default function Tables({ transactions }: Props) {
                             </Tr>
                         </Thead>
                         <Tbody className={styles.tBody}>
-                            {transactions?.map((transaction: any) => {
+                            {transactions?.map((transaction: ITransactions) => {
                                 return (
                                     <Tr key={transaction.id}>
                                         <Td>

@@ -13,21 +13,22 @@ import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
-import LogoDefault from '../../../public/images/logo.svg';
-import LogoViolet from '../../../public/images/logoViolet.svg';
-import api from '../../api';
-import IFormUP from '../../interfaces/IFormUP.type';
-import schema from '../../schemas/cadaster.schema';
-import styles from '../../styles/components/FormUP.module.sass';
-import ShowEye from '../../utils/ShowEye';
+import LogoDefault from '../../../../public/images/logo.svg';
+import LogoViolet from '../../../../public/images/logoViolet.svg';
+import api from '../../../api';
+import IFormUP from '../../../interfaces/IFormUP.type';
+import schema from '../../../schemas/cadaster.schema';
+import ShowEye from '../../../utils/ShowEye';
+import styles from './styles.module.sass';
 
 export default function FormUP() {
     const notify = () => toast.success('Cadastro bem sucedido!');
     const router = useRouter();
     const [error, setError] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmationPassword, setShowConfirmationPassword] = useState(false);
-    const [btnCadaster, setBtnCadaster] = useState(false);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [showConfirmationPassword, setShowConfirmationPassword] =
+        useState<boolean>(false);
+    const [btnCadaster, setBtnCadaster] = useState<boolean>(false);
     const [input, setInput] = useState<IFormUP>({
         name: '',
         email: '',

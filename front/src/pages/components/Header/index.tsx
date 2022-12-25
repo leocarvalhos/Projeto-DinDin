@@ -1,18 +1,20 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import Logo from '../../../public/images/logo.svg';
-import Coin from '../../../public/images/coin.svg';
-import Out from '../../../public/images/out.svg';
-import Profile from '../../../public/images/profile.svg';
-import styles from '../../styles/components/Header.module.sass';
 import { Dispatch, SetStateAction } from 'react';
-import useStorage from '../../hooks/useStorage';
+import Coin from '../../../../public/images/coin.svg';
+import Logo from '../../../../public/images/logo.svg';
+import Out from '../../../../public/images/out.svg';
+import Profile from '../../../../public/images/profile.svg';
+import useStorage from '../../../hooks/useStorage';
+import IStorage from '../../../interfaces/IStorage.type';
+import styles from './styles.module.sass';
+
 interface Props {
     setShowCoin: Dispatch<SetStateAction<boolean>>;
     setShowModal: Dispatch<SetStateAction<boolean>>;
 }
 export default function Header({ setShowModal, setShowCoin }: Props) {
-    const { remove }: any = useStorage();
+    const { remove }: IStorage = useStorage();
     return (
         <main className={styles.container}>
             <div className={styles.images}>
@@ -45,7 +47,7 @@ export default function Header({ setShowModal, setShowCoin }: Props) {
                             height={27}
                             style={{ cursor: 'pointer' }}
                             onClick={() => {
-                                remove();
+                                remove!();
                             }}
                         />
                     </Link>

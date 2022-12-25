@@ -1,5 +1,6 @@
-import styles from '../../styles/components/EditProfile.module.sass';
-import X from '../../../public/images/x.svg';
+import styles from './styles.module.sass';
+
+import X from '../../../../public/images/x.svg';
 import Image from 'next/image';
 import {
     Button,
@@ -10,28 +11,30 @@ import {
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
-import ShowEye from '../../utils/ShowEye';
-import useStorage from '../../hooks/useStorage';
+import ShowEye from '../../../utils/ShowEye';
+import useStorage from '../../../hooks/useStorage';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
-import api from '../../api';
+import api from '../../../api';
 import toast, { Toaster } from 'react-hot-toast';
 
 interface Props {
     setShowModal: Dispatch<SetStateAction<boolean>>;
 }
-import headers from '../../utils/Token';
-import IFormProfile from '../../interfaces/IFormProfile.type';
-import schema from '../../schemas/cadaster.schema';
+import headers from '../../../utils/Token';
+import IFormProfile from '../../../interfaces/IFormProfile.type';
+import schema from '../../../schemas/cadaster.schema';
 import { yupResolver } from '@hookform/resolvers/yup';
+import IStorage from '../../../interfaces/IStorage.type';
+import IFormCadaster from '../../../interfaces/IFormUP.type';
 export default function FormEditProfile({ setShowModal }: Props) {
     const notify = () => toast.success('Cadastro atualizado com sucesso!');
 
-    const { user }: any = useStorage();
+    const { user }: IStorage = useStorage();
     const [error, setError] = useState<boolean>(false);
     const [message, setMessage] = useState<string>('');
     const [showEyePassword, setShowEyePassword] = useState<boolean>(false);
     const [showEyeCPassword, setShowEyeCPassword] = useState<boolean>(false);
-    const [input, setInput] = useState<any>({
+    const [input, setInput] = useState<IFormCadaster>({
         name: '',
         email: '',
         password: '',
@@ -43,7 +46,7 @@ export default function FormEditProfile({ setShowModal }: Props) {
     }
     async function getUser() {
         try {
-            const { data } = await api.get('/user', headers(user.token));
+            const { data } = await api.get('/user', headers(user?.token));
             setInput({ name: data.user.name, email: data.user.email });
             setValue('name', data.user.name);
             setValue('email', data.user.email);
@@ -63,7 +66,7 @@ export default function FormEditProfile({ setShowModal }: Props) {
     } = useForm<IFormProfile>({ resolver: yupResolver(schema) });
     async function handleFormSubmit(data: IFormProfile) {
         try {
-            await api.put('/user', input, headers(user.token));
+            await api.put('/user', input, headers(user?.token));
             notify();
             setTimeout(() => {
                 setShowModal(false);
