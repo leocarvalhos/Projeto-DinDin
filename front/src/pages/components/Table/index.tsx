@@ -6,10 +6,16 @@ import ITransactions from '../../../interfaces/ITransactions.type';
 import dateFormated from '../../../utils/dateFormated';
 import formatedCurrency from '../../../utils/formatedCurrency';
 import styles from './styles.module.sass';
+import DeleteTransaction from '../DeleteTransaction';
+import { SyntheticEvent, useState } from 'react';
 interface Props {
     transactions: ITransactions[];
 }
+
 export default function Tables({ transactions }: Props) {
+    const [deleteTransaction, setDeleteTransaction] = useState(false);
+    console.log(deleteTransaction);
+    function funccc(e: any, transaction: any) {}
     return (
         <div className={styles.container}>
             <main>
@@ -54,9 +60,33 @@ export default function Tables({ transactions }: Props) {
                                             {formatedCurrency(transaction.value)}
                                         </Td>
                                         <Td className={styles.btn}>
-                                            <Image src={BtnEdit} alt="edit" />
-                                            <Image src={BtnDelete} alt="delete" />
+                                            <Image
+                                                src={BtnEdit}
+                                                alt="edit"
+                                                width={30}
+                                                height={30}
+                                            />
+                                            <Image
+                                                src={BtnDelete}
+                                                onClick={(e) => {
+                                                    funccc(e, transaction);
+                                                    setDeleteTransaction(
+                                                        !deleteTransaction
+                                                    );
+                                                }}
+                                                alt="delete"
+                                                width={30}
+                                                height={30}
+                                            />
                                         </Td>
+                                        {deleteTransaction && (
+                                            <DeleteTransaction
+                                                deleteTransaction={deleteTransaction}
+                                                setDeleteTransaction={
+                                                    setDeleteTransaction
+                                                }
+                                            />
+                                        )}
                                     </Tr>
                                 );
                             })}

@@ -20,8 +20,8 @@ import IForm from '../../../interfaces/IForm.type';
 import schema from '../../../schemas/login.schema';
 import styles from './styles.module.sass';
 
-import ShowEye from '../../../utils/ShowEye';
 import IStorage from '../../../interfaces/IStorage.type';
+import ShowEye from '../../../utils/ShowEye';
 
 export default function FormIN() {
     const router = useRouter();
@@ -39,8 +39,9 @@ export default function FormIN() {
         setInput({ ...input, [e.target.name]: e.target.value });
     }
 
-    async function onSubmithanlder(data: IForm) {
+    async function onSubmit(data: IForm) {
         try {
+            setBtnLogin(true);
             const response = await api.post('/login', input);
             setUser!(response.data.user);
             notify();
@@ -62,13 +63,12 @@ export default function FormIN() {
         formState: { errors },
         reset,
     } = useForm<IForm>({ resolver: yupResolver(schema) });
-
     return (
         <main className={styles.main}>
             <section>
                 <Image priority src={Logo} alt="Logo" className={styles.logo} />
                 <h2>Conecte-se</h2>
-                <form onSubmit={handleSubmit(onSubmithanlder)}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <FormControl isInvalid={!!errors?.email?.message || !!errorBack}>
                         <FormLabel style={{ fontSize: '1.4rem' }}>Email</FormLabel>
                         <div style={{ position: 'relative' }}>
@@ -107,11 +107,7 @@ export default function FormIN() {
                             {ShowEye(styles.eye, showPassword, setShowPassword)}
                         </div>
                     </FormControl>
-                    <Button
-                        className={styles.btn}
-                        type="submit"
-                        onClick={() => setBtnLogin(true)}
-                    >
+                    <Button className={styles.btn} type="submit">
                         {!btnLogin ? (
                             'Entrar'
                         ) : (

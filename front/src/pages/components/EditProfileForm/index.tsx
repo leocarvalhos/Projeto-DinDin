@@ -1,7 +1,5 @@
 import styles from './styles.module.sass';
 
-import X from '../../../../public/images/x.svg';
-import Image from 'next/image';
 import {
     Button,
     FormControl,
@@ -9,23 +7,24 @@ import {
     FormLabel,
     Input,
 } from '@chakra-ui/react';
-import { useForm } from 'react-hook-form';
-import Link from 'next/link';
-import ShowEye from '../../../utils/ShowEye';
-import useStorage from '../../../hooks/useStorage';
+import { yupResolver } from '@hookform/resolvers/yup';
+import Image from 'next/image';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
-import api from '../../../api';
+import { useForm } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
+import X from '../../../../public/images/x.svg';
+import api from '../../../api';
+import useStorage from '../../../hooks/useStorage';
+import IFormProfile from '../../../interfaces/IFormProfile.type';
+import IFormCadaster from '../../../interfaces/IFormUP.type';
+import IStorage from '../../../interfaces/IStorage.type';
+import schema from '../../../schemas/cadaster.schema';
+import ShowEye from '../../../utils/ShowEye';
+import headers from '../../../utils/Token';
 
 interface Props {
     setShowModal: Dispatch<SetStateAction<boolean>>;
 }
-import headers from '../../../utils/Token';
-import IFormProfile from '../../../interfaces/IFormProfile.type';
-import schema from '../../../schemas/cadaster.schema';
-import { yupResolver } from '@hookform/resolvers/yup';
-import IStorage from '../../../interfaces/IStorage.type';
-import IFormCadaster from '../../../interfaces/IFormUP.type';
 export default function FormEditProfile({ setShowModal }: Props) {
     const notify = () => toast.success('Cadastro atualizado com sucesso!');
 

@@ -23,10 +23,13 @@ export default function Filter({ categories, setTransactions, getTransactions }:
     const [showCard, setShowCard] = useState<boolean>(true);
     const [params, setParams] = useState<String[]>([]);
 
-    function handleParams(e: MouseEvent<HTMLButtonElement>, category: ICategory) {
-        if (params && params.includes(e.currentTarget.value)) {
+    function handleParams(e: any, category: ICategory) {
+        if (params && params.includes(e.target.value)) {
             setParams((params) =>
-                params.filter((element) => element !== e.currentTarget.value)
+                params.filter((element) => {
+                    console.log(e.target.value);
+                    return element !== e.target.value;
+                })
             );
         } else {
             setParams([...params, category.description]);

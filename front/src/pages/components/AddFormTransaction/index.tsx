@@ -8,27 +8,19 @@ import {
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Image from 'next/image';
-import {
-    ChangeEvent,
-    Dispatch,
-    MouseEvent,
-    SetStateAction,
-    SyntheticEvent,
-    useEffect,
-    useState,
-} from 'react';
+import { ChangeEvent, Dispatch, MouseEvent, SetStateAction, useState } from 'react';
 import CurrencyFormat from 'react-currency-format';
 import { useForm } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
 import X from '../../../../public/images/x.svg';
 import api from '../../../api';
 import useStorage from '../../../hooks/useStorage';
-import { IFormReg } from '../../../interfaces/IFormReg.type';
-import schema from '../../../schemas/addTransaction.schema';
-import styles from './styles.module.sass';
-import headers from '../../../utils/Token';
 import ICategory from '../../../interfaces/ICategory.type';
+import { IFormReg } from '../../../interfaces/IFormReg.type';
 import IStorage from '../../../interfaces/IStorage.type';
+import schema from '../../../schemas/addTransaction.schema';
+import headers from '../../../utils/Token';
+import styles from './styles.module.sass';
 
 interface Props {
     setShowAddReg: Dispatch<SetStateAction<boolean>>;
