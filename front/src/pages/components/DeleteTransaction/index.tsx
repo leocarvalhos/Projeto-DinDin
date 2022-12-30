@@ -11,10 +11,15 @@ export default function DeleteTransaction({
 }: Props) {
     return (
         <div className={styles.container}>
-            <strong>Apagar item?</strong>
+            <p>Apagar item?</p>
             <div>
-                <Button>Sim</Button>
-                <Button onClick={() => setDeleteTransaction(false)}>Não</Button>
+                <Button style={{ background: '#3A9FF1' }}>Sim</Button>
+                <Button
+                    style={{ background: '#FF576B' }}
+                    onClick={() => setDeleteTransaction(false)}
+                >
+                    Não
+                </Button>
             </div>
         </div>
     );

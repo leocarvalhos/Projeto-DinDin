@@ -1,15 +1,39 @@
 @use "../../../styles/mixin"
 @use "../../../styles/variables"
 .container
-    width: 110px
-    padding: 5px
+    padding: 10px
     background: #E4F2FD
     display: flex
     justify-content: center
     align-items: center
     flex-direction: column
-    border-radius: 20%
+    border-radius: 8px
     font-size: 1rem
     position: absolute
-    top: 50px
+    top: 40px
+    right: -15px
     z-index: 1
+    @include mixin.fontStyle(variables.$font-default, normal,300, 1.2rem, 1.4rem)
+
+    p
+        margin: 8px 0px
+    div
+        gap: 10px
+
+        display: flex
+        width: 100%
+        button
+            width: 50px
+            border-radius: 6px
+            color: #fff
+
+.container:after
+    content: ""
+    width: 0
+    height: 0
+    position: absolute
+    border-left: 9px solid transparent
+    border-right: 9px solid transparent
+    border-bottom: 9px solid #E4F2FD
+    top: -9px
+    right: 15%

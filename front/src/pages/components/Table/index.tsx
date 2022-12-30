@@ -8,13 +8,12 @@ import formatedCurrency from '../../../utils/formatedCurrency';
 import styles from './styles.module.sass';
 import DeleteTransaction from '../DeleteTransaction';
 import { SyntheticEvent, useState } from 'react';
+import RowTransaction from '../RowTransaction';
 interface Props {
     transactions: ITransactions[];
 }
 
 export default function Tables({ transactions }: Props) {
-    const [deleteTransaction, setDeleteTransaction] = useState(false);
-    console.log(deleteTransaction);
     function funccc(e: any, transaction: any) {}
     return (
         <div className={styles.container}>
@@ -34,60 +33,10 @@ export default function Tables({ transactions }: Props) {
                         <Tbody className={styles.tBody}>
                             {transactions?.map((transaction: ITransactions) => {
                                 return (
-                                    <Tr key={transaction.id}>
-                                        <Td>
-                                            {new Date(
-                                                transaction.date
-                                            ).toLocaleDateString()}
-                                        </Td>
-                                        <Td>
-                                            {dateFormated(
-                                                new Date(transaction.date).getDay()
-                                            )}
-                                        </Td>
-                                        <Td>{transaction.description}</Td>
-                                        <Td>{transaction.category.description}</Td>
-                                        <Td
-                                            style={{
-                                                color: `${
-                                                    transaction.type === 'entrada'
-                                                        ? '#7B61FF'
-                                                        : '#FA8C10'
-                                                }`,
-                                                fontWeight: '700',
-                                            }}
-                                        >
-                                            {formatedCurrency(transaction.value)}
-                                        </Td>
-                                        <Td className={styles.btn}>
-                                            <Image
-                                                src={BtnEdit}
-                                                alt="edit"
-                                                width={30}
-                                                height={30}
-                                            />
-                                            <Image
-                                                src={BtnDelete}
-                                                onClick={(e) => {
-                                                    funccc(e, transaction);
-                                                    setDeleteTransaction(
-                                                        !deleteTransaction
-                                                    );
-                                                }}
-                                                alt="delete"
-                                                width={30}
-                                                height={30}
-                                            />
-                                        </Td>
-                                        {deleteTransaction && (
-                                            <DeleteTransaction
-                                                deleteTransaction={deleteTransaction}
-                                                setDeleteTransaction={
-                                                    setDeleteTransaction
-                                                }
-                                            />
-                                        )}
-                                    </Tr>
+                                    <RowTransaction
+                                        key={transaction.id}
+                                        transaction={transaction}
+                                    />
                                 );
                             })}
                         </Tbody>

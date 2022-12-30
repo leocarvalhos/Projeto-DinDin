@@ -30,19 +30,11 @@ export default function FormIN() {
     const [btnLogin, setBtnLogin] = useState<boolean>(false);
     const [errorBack, setErrorBack] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
-    const [input, setInput] = useState<IForm>({
-        email: '',
-        password: '',
-    });
-
-    function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
-        setInput({ ...input, [e.target.name]: e.target.value });
-    }
 
     async function onSubmit(data: IForm) {
         try {
             setBtnLogin(true);
-            const response = await api.post('/login', input);
+            const response = await api.post('/login', data);
             setUser!(response.data.user);
             notify();
             reset();
@@ -76,8 +68,6 @@ export default function FormIN() {
                                 className={styles.input}
                                 type="email"
                                 {...register('email')}
-                                value={input.email}
-                                onChange={handleInputChange}
                             />
                             {errors && (
                                 <FormErrorMessage className={styles.errorMessage}>
@@ -93,8 +83,6 @@ export default function FormIN() {
                                 className={styles.input}
                                 type={!showPassword ? 'password' : 'text'}
                                 {...register('password')}
-                                value={input.password}
-                                onChange={handleInputChange}
                             />
                             {errors && (
                                 <FormErrorMessage className={styles.errorMessage}>

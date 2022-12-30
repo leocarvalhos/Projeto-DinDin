@@ -44,14 +44,6 @@ export default function Resume({ setShowCoin, setShowAddReg, value }: Props) {
                         value?.balance
                     ).toLocaleString('pt-br', { minimumFractionDigits: 2 })}`}</span>
                 </strong>
-                <Button
-                    onClick={() => {
-                        setShowCoin(false);
-                        setShowAddReg(true);
-                    }}
-                >
-                    Adicionar Registro
-                </Button>
             </main>
         </div>
     );

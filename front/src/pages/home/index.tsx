@@ -94,7 +94,6 @@ export default function Home() {
                         />
                         <Table transactions={transactions} />
                     </div>
-                    {/* <Resume setShowAddReg={setShowAddReg} /> */}
                 </div>
             </main>
         </>
