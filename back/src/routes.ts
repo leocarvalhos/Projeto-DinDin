@@ -10,6 +10,7 @@ const routes = Router()
 
 routes.post('/users', validateSchema(cadasterSchema), new UserController().cadaster)
 routes.post('/login', validateSchema(loginSchema), new UserController().login)
+routes.get('/health-check', new UserController().wakeAPI)
 
 routes.use(authMiddleware)
 
@@ -20,7 +21,7 @@ routes.get('/categories', new CategoryController().categories)
 routes.get('/transactions', new TransactionController().listTransactions)
 routes.get('/transaction/:id', new TransactionController().transactionId)
 routes.get('/extract', new TransactionController().extract)
-routes.get('/health-check', new UserController().wakeAPI)
+
 
 routes.put('/user', new UserController().updateUser)
 routes.put('/transaction/:id', new TransactionController().updateTransaction)
