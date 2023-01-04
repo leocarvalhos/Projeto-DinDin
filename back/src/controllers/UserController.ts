@@ -89,4 +89,8 @@ export class UserController {
             return res.status(500).json(e)
         }
     }
+
+    async wakeAPI(req: Request, res: Response) {
+        return res.status(200)
+    }
 }
