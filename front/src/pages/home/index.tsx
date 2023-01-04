@@ -12,10 +12,14 @@ import EditProfileForm from '../components/EditProfileForm';
 import Filter from '../components/Filter';
 import Header from '../components/Header';
 import Resume from '../components/Resume';
+import ResumeMobile from '../components/ResumeMobile';
 import Table from '../components/Table';
 import styles from './styles.module.sass';
-
+import useOverflow from '../../hooks/useOverflow';
+import EditFormTransaction from '../components/EditFormTransaction';
 export default function Home() {
+    const { overflow }: any = useOverflow();
+
     const router = useRouter();
     const { user }: IStorage = useStorage();
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -24,6 +28,7 @@ export default function Home() {
     const [value, setValue] = useState({});
     const [categories, setCategories] = useState<ICategory[]>([]);
     const [transactions, setTransactions] = useState<ITransactions[]>([]);
+    const [modalEditTransaction, setModalEditTransaction] = useState(false);
     useEffect(() => {
         if (!user?.token) {
             router.replace('/');
@@ -49,12 +54,14 @@ export default function Home() {
         try {
             const { data } = await api.get('/transactions', headers(user?.token));
             setTransactions(data);
-        } catch (error) {}
+        } catch (error) {
+            console.log(error);
+        }
     }
     useEffect(() => {
-        getValues();
         getCategories();
         getTransactions();
+        getValues();
     }, []);
 
     return (
@@ -68,7 +75,7 @@ export default function Home() {
                 )}
                 {showCoin && (
                     <div className={styles.modal}>
-                        <Resume
+                        <ResumeMobile
                             setShowCoin={setShowCoin}
                             setShowAddReg={setShowAddReg}
                             value={value}
@@ -84,7 +91,14 @@ export default function Home() {
                         />
                     </div>
                 )}
-
+                {modalEditTransaction && (
+                    <EditFormTransaction
+                        setModalEditTransaction={setModalEditTransaction}
+                        categories={categories}
+                        getTransactions={getTransactions}
+                        transactions={transactions}
+                    />
+                )}
                 <div className={styles.divResume}>
                     <div className={styles.filterTable}>
                         <Filter
@@ -92,8 +106,13 @@ export default function Home() {
                             setTransactions={setTransactions}
                             getTransactions={getTransactions}
                         />
-                        <Table transactions={transactions} />
+                        <Table
+                            transactions={transactions}
+                            getTransactions={getTransactions}
+                            setModalEditTransaction={setModalEditTransaction}
+                        />
                     </div>
+                    <Resume value={value} />
                 </div>
             </main>
         </>

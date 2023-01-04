@@ -1,11 +1,25 @@
-import { Button, Stack } from '@chakra-ui/react';
-import Logo from '../../../public/images/logo.svg';
+import { Button } from '@chakra-ui/react';
 import Image from 'next/image';
+import Logo from '../../../public/images/logo.svg';
 import styles from './styles.module.sass';
 
-import LoginForm from '../components/LoginForm';
 import Link from 'next/link';
+
+import api from '../../api';
+import LoginForm from '../components/LoginForm';
+import { useEffect } from 'react';
+
 export default function SignIn() {
+    async function wakeAPI() {
+        try {
+            await api.get('/health-check ');
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    useEffect(() => {
+        wakeAPI();
+    }, []);
     return (
         <main className={styles.main}>
             <section className={styles.textSignUp}>
@@ -17,7 +31,7 @@ export default function SignIn() {
                     Organizar as suas finanças nunca foi tão fácil, com o DINDIN, você tem
                     tudo num único lugar e em um clique de distância.
                 </p>
-                <Link href="/Sign-up">
+                <Link href="/sign-up">
                     <Button className={styles.btn}>Cadastre-se</Button>
                 </Link>
             </section>

@@ -1,20 +1,20 @@
-import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
-import Image from 'next/image';
-import BtnDelete from '../../../../public/images/btn-deleted.svg';
-import BtnEdit from '../../../../public/images/btn-edit.svg';
+import { Table, TableContainer, Tbody, Th, Thead, Tr } from '@chakra-ui/react';
+import { Dispatch, SetStateAction } from 'react';
+import ICategory from '../../../interfaces/ICategory.type';
 import ITransactions from '../../../interfaces/ITransactions.type';
-import dateFormated from '../../../utils/dateFormated';
-import formatedCurrency from '../../../utils/formatedCurrency';
-import styles from './styles.module.sass';
-import DeleteTransaction from '../DeleteTransaction';
-import { SyntheticEvent, useState } from 'react';
 import RowTransaction from '../RowTransaction';
+import styles from './styles.module.sass';
 interface Props {
     transactions: ITransactions[];
+    getTransactions(): Promise<void>;
+    setModalEditTransaction: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function Tables({ transactions }: Props) {
-    function funccc(e: any, transaction: any) {}
+export default function Tables({
+    transactions,
+    getTransactions,
+    setModalEditTransaction,
+}: Props) {
     return (
         <div className={styles.container}>
             <main>
@@ -36,6 +36,8 @@ export default function Tables({ transactions }: Props) {
                                     <RowTransaction
                                         key={transaction.id}
                                         transaction={transaction}
+                                        getTransactions={getTransactions}
+                                        setModalEditTransaction={setModalEditTransaction}
                                     />
                                 );
                             })}

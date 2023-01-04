@@ -27,7 +27,6 @@ export default function Filter({ categories, setTransactions, getTransactions }:
         if (params && params.includes(e.target.value)) {
             setParams((params) =>
                 params.filter((element) => {
-                    console.log(e.target.value);
                     return element !== e.target.value;
                 })
             );

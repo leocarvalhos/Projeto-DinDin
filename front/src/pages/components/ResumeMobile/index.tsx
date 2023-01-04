@@ -1,16 +1,30 @@
 import { Button } from '@chakra-ui/react';
+import Image from 'next/image';
+import { Dispatch, SetStateAction } from 'react';
+import X from '../../../../public/images/x.svg';
 import styles from './styles.module.sass';
+
 interface Props {
+    setShowCoin: Dispatch<SetStateAction<boolean>>;
+    setShowAddReg: Dispatch<SetStateAction<boolean>>;
     value: {
         profit?: string;
         expenses?: number;
         balance?: number;
     };
 }
-export default function Resume({ value }: Props) {
+export default function ResumeMobile({ setShowCoin, setShowAddReg, value }: Props) {
     return (
-        <main className={styles.container}>
-            <section>
+        <div className={styles.container}>
+            <Image
+                src={X}
+                alt="x"
+                width={25}
+                height={25}
+                className={styles.x}
+                onClick={() => setShowCoin(false)}
+            />
+            <main>
                 <h1>Resumo</h1>
                 <strong>
                     Entradas
@@ -30,8 +44,15 @@ export default function Resume({ value }: Props) {
                         value?.balance
                     ).toLocaleString('pt-br', { minimumFractionDigits: 2 })}`}</span>
                 </strong>
-            </section>
-            <Button>Adicionar Registro</Button>
-        </main>
+                <Button
+                    onClick={() => {
+                        setShowCoin(false);
+                        setShowAddReg(true);
+                    }}
+                >
+                    Adicionar Registro
+                </Button>
+            </main>
+        </div>
     );
 }

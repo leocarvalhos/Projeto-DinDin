@@ -23,16 +23,18 @@ import headers from '../../../utils/Token';
 import styles from './styles.module.sass';
 
 interface Props {
-    setShowAddReg: Dispatch<SetStateAction<boolean>>;
     categories: ICategory[];
     getTransactions(): Promise<void>;
+    setModalEditTransaction: Dispatch<SetStateAction<boolean>>;
+    transactions: any;
 }
-export default function FormAddReg({
-    setShowAddReg,
+export default function EditFormTransaction({
     categories,
     getTransactions,
+    setModalEditTransaction,
+    transactions,
 }: Props) {
-    const notify = () => toast.success('Transação criada com sucesso!');
+    const notify = () => toast.success('Transação atualizada com sucesso!');
     const { user }: IStorage = useStorage();
     const {
         register,
@@ -66,32 +68,19 @@ export default function FormAddReg({
         setInput({ ...input, [e.currentTarget.name]: e.currentTarget.value });
     }
 
-    async function createTransaction(data: IFormReg) {
-        try {
-            await api.post('/transaction', input, headers(user?.token));
-            notify();
-            reset();
-            getTransactions();
-
-            setTimeout(() => {
-                setShowAddReg(false);
-            }, 1200);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
     return (
         <main className={styles.container}>
             <section>
-                <h1>Adicionar Registro</h1>
+                <h1>Editar Registro</h1>
                 <Image
                     src={X}
                     alt="x"
                     className={styles.x}
-                    onClick={() => setShowAddReg(false)}
+                    onClick={(e) => {
+                        setModalEditTransaction(false);
+                    }}
                 />
-                <form onSubmit={handleSubmit(createTransaction)}>
+                <form>
                     <FormControl>
                         <div className={styles.buttons}>
                             <Button
@@ -124,7 +113,7 @@ export default function FormAddReg({
                     </FormControl>
 
                     <FormControl isInvalid={!!errors?.value?.message}>
-                        <FormLabel style={{ fontSize: '1.4rem' }}>Valor</FormLabel>
+                        <FormLabel className={styles.label}>Valor</FormLabel>
                         <div style={{ position: 'relative' }}>
                             <Input
                                 value={input.value}
@@ -150,7 +139,7 @@ export default function FormAddReg({
                     </FormControl>
 
                     <FormControl isInvalid={!!errors?.category_id?.message}>
-                        <FormLabel style={{ fontSize: '1.4rem' }}>Categoria</FormLabel>
+                        <FormLabel className={styles.label}>Categoria</FormLabel>
                         <div style={{ position: 'relative' }}>
                             <Select
                                 placeholder="Seleciona a categoria"
@@ -178,7 +167,7 @@ export default function FormAddReg({
                     </FormControl>
 
                     <FormControl isInvalid={!!errors?.date?.message}>
-                        <FormLabel style={{ fontSize: '1.4rem' }}>Data</FormLabel>
+                        <FormLabel className={styles.label}>Data</FormLabel>
                         <div style={{ position: 'relative' }}>
                             <Input
                                 type="date"
@@ -198,7 +187,7 @@ export default function FormAddReg({
                     </FormControl>
 
                     <FormControl isInvalid={!!errors?.description?.message}>
-                        <FormLabel style={{ fontSize: '1.4rem' }}>Descrição</FormLabel>
+                        <FormLabel className={styles.label}>Descrição</FormLabel>
                         <div style={{ position: 'relative' }}>
                             <Input
                                 className={styles.input}

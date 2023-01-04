@@ -76,8 +76,8 @@ export default function FormEditProfile({ setShowModal }: Props) {
         }
     }
     return (
-        <div className={styles.conteudo}>
-            <form className={styles.form} onSubmit={handleSubmit(handleFormSubmit)}>
+        <div className={styles.container}>
+            <form onSubmit={handleSubmit(handleFormSubmit)}>
                 <Image
                     src={X}
                     alt="x"
@@ -88,7 +88,7 @@ export default function FormEditProfile({ setShowModal }: Props) {
                 <h1>Editar Perfil</h1>
 
                 <FormControl isInvalid={!!errors.name?.message}>
-                    <FormLabel style={{ fontSize: '1.4rem' }}>Nome</FormLabel>
+                    <FormLabel className={styles.label}>Nome</FormLabel>
                     <div style={{ position: 'relative' }}>
                         <Input
                             className={styles.input}
@@ -106,7 +106,7 @@ export default function FormEditProfile({ setShowModal }: Props) {
                     </div>
                 </FormControl>
                 <FormControl isInvalid={!!errors.email?.message}>
-                    <FormLabel style={{ fontSize: '1.4rem' }}>Email</FormLabel>
+                    <FormLabel className={styles.label}>Email</FormLabel>
                     <div style={{ position: 'relative' }}>
                         <Input
                             className={styles.input}
@@ -124,7 +124,7 @@ export default function FormEditProfile({ setShowModal }: Props) {
                     </div>
                 </FormControl>
                 <FormControl isInvalid={!!errors.password?.message}>
-                    <FormLabel style={{ fontSize: '1.4rem' }}>Senha</FormLabel>
+                    <FormLabel className={styles.label}>Senha</FormLabel>
                     <div style={{ position: 'relative' }}>
                         <div style={{ position: 'relative' }}></div>
 
@@ -145,9 +145,7 @@ export default function FormEditProfile({ setShowModal }: Props) {
                     </div>
                 </FormControl>
                 <FormControl isInvalid={!!errors.cpassword?.message}>
-                    <FormLabel style={{ fontSize: '1.4rem' }}>
-                        Confirmação de senha
-                    </FormLabel>
+                    <FormLabel className={styles.label}>Confirmação de senha</FormLabel>
                     <div style={{ position: 'relative' }}>
                         <Input
                             className={styles.input}

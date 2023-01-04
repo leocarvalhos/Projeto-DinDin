@@ -1,17 +1,32 @@
 import { Td, Tr } from '@chakra-ui/react';
 import Image from 'next/image';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import BtnDelete from '../../../../public/images/btn-deleted.svg';
 import BtnEdit from '../../../../public/images/btn-edit.svg';
+import ICategory from '../../../interfaces/ICategory.type';
+import ITransactions from '../../../interfaces/ITransactions.type';
 import dateFormated from '../../../utils/dateFormated';
 import formatedCurrency from '../../../utils/formatedCurrency';
 import DeleteTransaction from '../DeleteTransaction';
+import EditFormTransaction from '../EditFormTransaction';
 import styles from './styles.module.sass';
 interface Props {
-    transaction: any;
+    transaction: ITransactions;
+    getTransactions(): Promise<void>;
+    setModalEditTransaction: Dispatch<SetStateAction<boolean>>;
 }
-export default function RowTransaction({ transaction }: Props) {
+export default function RowTransaction({
+    transaction,
+    getTransactions,
+    setModalEditTransaction,
+}: Props) {
     const [deleteTransaction, setDeleteTransaction] = useState(false);
+
+    function openModalEditTransaction() {
+        setModalEditTransaction(true);
+
+        // document.body.classList.add('overflow-hidden');
+    }
 
     return (
         <Tr className={styles.tr}>
@@ -29,17 +44,28 @@ export default function RowTransaction({ transaction }: Props) {
             </Td>
 
             <Td className={styles.btn}>
-                <Image src={BtnEdit} alt="edit" width={30} height={30} />
+                <Image
+                    src={BtnEdit}
+                    alt="edit"
+                    width={30}
+                    height={30}
+                    onClick={openModalEditTransaction}
+                />
+
                 <div style={{ position: 'relative' }}>
                     <Image
                         src={BtnDelete}
-                        onClick={() => setDeleteTransaction(!deleteTransaction)}
+                        onClick={() => {
+                            setDeleteTransaction(!deleteTransaction);
+                        }}
                         alt="delete"
                         width={30}
                         height={30}
                     />
                     {deleteTransaction && (
                         <DeleteTransaction
+                            getTransactions={getTransactions}
+                            transaction={transaction}
                             deleteTransaction={deleteTransaction}
                             setDeleteTransaction={setDeleteTransaction}
                         />
