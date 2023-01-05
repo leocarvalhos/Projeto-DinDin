@@ -15,11 +15,9 @@ import Resume from '../components/Resume';
 import ResumeMobile from '../components/ResumeMobile';
 import Table from '../components/TableTransactions';
 import styles from './styles.module.sass';
-import useOverflow from '../../hooks/useOverflow';
+
 import EditFormTransaction from '../components/UpdateTransaction';
 export default function Home() {
-    const { overflow }: any = useOverflow();
-
     const router = useRouter();
     const { user }: IStorage = useStorage();
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -68,37 +66,6 @@ export default function Home() {
         <>
             <Header setShowModal={setShowModal} setShowCoin={setShowCoin} />
             <main className={styles.main}>
-                {showModal && (
-                    <div className={styles.modal}>
-                        <UpdateProfile setShowModal={setShowModal} />
-                    </div>
-                )}
-                {showCoin && (
-                    <div className={styles.modal}>
-                        <ResumeMobile
-                            setShowCoin={setShowCoin}
-                            setShowAddReg={setShowAddReg}
-                            value={value}
-                        />
-                    </div>
-                )}
-                {showAddReg && (
-                    <div className={styles.modal}>
-                        <AddFormTransaction
-                            setShowAddReg={setShowAddReg}
-                            categories={categories}
-                            getTransactions={getTransactions}
-                        />
-                    </div>
-                )}
-                {modalEditTransaction && (
-                    <EditFormTransaction
-                        setModalEditTransaction={setModalEditTransaction}
-                        categories={categories}
-                        getTransactions={getTransactions}
-                        transactions={transactions}
-                    />
-                )}
                 <div className={styles.divResume}>
                     <div className={styles.filterTable}>
                         <Filter
@@ -115,6 +82,37 @@ export default function Home() {
                     <Resume value={value} setShowAddReg={setShowAddReg} />
                 </div>
             </main>
+            {showModal && (
+                <div className={styles.modal}>
+                    <UpdateProfile setShowModal={setShowModal} />
+                </div>
+            )}
+            {showCoin && (
+                <div className={styles.modal}>
+                    <ResumeMobile
+                        setShowCoin={setShowCoin}
+                        setShowAddReg={setShowAddReg}
+                        value={value}
+                    />
+                </div>
+            )}
+            {showAddReg && (
+                <div className={styles.modal}>
+                    <AddFormTransaction
+                        setShowAddReg={setShowAddReg}
+                        categories={categories}
+                        getTransactions={getTransactions}
+                    />
+                </div>
+            )}
+            {modalEditTransaction && (
+                <EditFormTransaction
+                    setModalEditTransaction={setModalEditTransaction}
+                    categories={categories}
+                    getTransactions={getTransactions}
+                    transactions={transactions}
+                />
+            )}
         </>
     );
 }

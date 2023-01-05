@@ -1,6 +1,5 @@
 import { Table, TableContainer, Tbody, Th, Thead, Tr } from '@chakra-ui/react';
 import { Dispatch, SetStateAction } from 'react';
-import ICategory from '../../../interfaces/ICategory.type';
 import ITransactions from '../../../interfaces/ITransactions.type';
 import RowTransaction from '../RowTransaction';
 import styles from './styles.module.sass';

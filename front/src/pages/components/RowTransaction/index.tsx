@@ -23,21 +23,21 @@ export default function RowTransaction({
     const [deleteTransaction, setDeleteTransaction] = useState(false);
 
     return (
-        <Tr className={styles.tr}>
-            <Td>{new Date(transaction?.date).toLocaleDateString()}</Td>
-            <Td>{dateFormated(new Date(transaction?.date).getDay())}</Td>
-            <Td>{transaction?.description}</Td>
-            <Td>{transaction?.category.description}</Td>
-            <Td
+        <tr className={styles.tr}>
+            <td>{new Date(transaction?.date).toLocaleDateString()}</td>
+            <td>{dateFormated(new Date(transaction?.date).getDay())}</td>
+            <td>{transaction?.description}</td>
+            <td>{transaction?.category.description}</td>
+            <td
                 style={{
                     color: `${transaction?.type === 'entrada' ? '#7B61FF' : '#FA8C10'}`,
                     fontWeight: '700',
                 }}
             >
                 {formatedCurrency(transaction?.value)}
-            </Td>
+            </td>
 
-            <Td className={styles.btn}>
+            <td className={styles.btn}>
                 <Image
                     src={BtnEdit}
                     alt="edit"
@@ -68,7 +68,7 @@ export default function RowTransaction({
                         />
                     )}
                 </div>
-            </Td>
-        </Tr>
+            </td>
+        </tr>
     );
 }
