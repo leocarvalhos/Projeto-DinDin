@@ -22,16 +22,10 @@ export default function RowTransaction({
 }: Props) {
     const [deleteTransaction, setDeleteTransaction] = useState(false);
 
-    function openModalEditTransaction() {
-        setModalEditTransaction(true);
-
-        // document.body.classList.add('overflow-hidden');
-    }
-
     return (
         <Tr className={styles.tr}>
-            <Td>{new Date(transaction.date).toLocaleDateString()}</Td>
-            <Td>{dateFormated(new Date(transaction.date).getDay())}</Td>
+            <Td>{new Date(transaction?.date).toLocaleDateString()}</Td>
+            <Td>{dateFormated(new Date(transaction?.date).getDay())}</Td>
             <Td>{transaction.description}</Td>
             <Td>{transaction.category.description}</Td>
             <Td
@@ -51,7 +45,7 @@ export default function RowTransaction({
                     height={30}
                     onClick={() => {
                         document.body.classList.add('overflow-hidden');
-                        openModalEditTransaction();
+                        setModalEditTransaction(true);
                     }}
                 />
 
