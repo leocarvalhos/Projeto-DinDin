@@ -26,15 +26,15 @@ export default function RowTransaction({
         <Tr className={styles.tr}>
             <Td>{new Date(transaction?.date).toLocaleDateString()}</Td>
             <Td>{dateFormated(new Date(transaction?.date).getDay())}</Td>
-            <Td>{transaction.description}</Td>
-            <Td>{transaction.category.description}</Td>
+            <Td>{transaction?.description}</Td>
+            <Td>{transaction?.category.description}</Td>
             <Td
                 style={{
-                    color: `${transaction.type === 'entrada' ? '#7B61FF' : '#FA8C10'}`,
+                    color: `${transaction?.type === 'entrada' ? '#7B61FF' : '#FA8C10'}`,
                     fontWeight: '700',
                 }}
             >
-                {formatedCurrency(transaction.value)}
+                {formatedCurrency(transaction?.value)}
             </Td>
 
             <Td className={styles.btn}>
