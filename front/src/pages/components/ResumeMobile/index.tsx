@@ -22,7 +22,10 @@ export default function ResumeMobile({ setShowCoin, setShowAddReg, value }: Prop
                 width={25}
                 height={25}
                 className={styles.x}
-                onClick={() => setShowCoin(false)}
+                onClick={() => {
+                    document.body.classList.remove('overflow-hidden');
+                    setShowCoin(false);
+                }}
             />
             <main>
                 <h1>Resumo</h1>

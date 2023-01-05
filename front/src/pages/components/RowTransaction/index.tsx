@@ -8,7 +8,7 @@ import ITransactions from '../../../interfaces/ITransactions.type';
 import dateFormated from '../../../utils/dateFormated';
 import formatedCurrency from '../../../utils/formatedCurrency';
 import DeleteTransaction from '../DeleteTransaction';
-import EditFormTransaction from '../EditFormTransaction';
+import EditFormTransaction from '../UpdateTransaction';
 import styles from './styles.module.sass';
 interface Props {
     transaction: ITransactions;
@@ -49,7 +49,10 @@ export default function RowTransaction({
                     alt="edit"
                     width={30}
                     height={30}
-                    onClick={openModalEditTransaction}
+                    onClick={() => {
+                        document.body.classList.add('overflow-hidden');
+                        openModalEditTransaction();
+                    }}
                 />
 
                 <div style={{ position: 'relative' }}>

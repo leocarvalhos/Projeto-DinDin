@@ -59,15 +59,15 @@
                 margin-top: 30px
                 margin-bottom: 25px
 
-@media screen and (min-width: 1024px)
+@media screen and (min-width: 768px)
     .container
         background: rgba(61, 61, 61, 0.48)
         padding: 0px
 
-        main
+        section
             background: variables.$white
-            width: 40%
-            padding: 0px 40px
+            width: 30%
+            padding: 10px 20px
             @include mixin.flex(column, center, flex-start)
             position: relative
             border-radius: 20px
@@ -78,40 +78,15 @@
                 cursor: pointer
 
             h1
-                margin-bottom: 10px
+                margin-bottom: 25px
+                font-size: 2.5rem
 
-            input, select, button
+            input, select
                 margin-bottom: 10px
+        button
+            margin: 0
 
 @media screen and (min-width: 1280px)
     .container
-        overflow-x: hidden
-        main
-            padding: 60px 30px
-            width: 30%
-            border-radius: 20px
-            overflow-x: hidden
-
-            .buttons
-                margin-bottom: 20px
-
-                button
-                    height: 70px
-                    @include mixin.fontStyle(variables.$font-default, normal, 700, 1.9rem, 2.2rem)
-
-            .x
-                top: 40px
-                right: 40px
-
-            h1
-                margin-bottom: 40px
-
-            input, select
-                height: 60px
-                margin-bottom: 30px
-                @include mixin.fontStyle(variables.$font-default, normal, 400, 1.7rem, 1.9rem)
-
-            .btn
-                height: 65px
-                width: 100%
-                @include mixin.fontStyle(variables.$font-default, normal, 700, 1.9rem, 2.2rem)
+        section
+            padding: 30px 20px

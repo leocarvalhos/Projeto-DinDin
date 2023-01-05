@@ -72,7 +72,7 @@ export default function FormAddReg({
             notify();
             reset();
             getTransactions();
-
+            document.body.classList.remove('overflow-hidden');
             setTimeout(() => {
                 setShowAddReg(false);
             }, 1200);
@@ -89,7 +89,10 @@ export default function FormAddReg({
                     src={X}
                     alt="x"
                     className={styles.x}
-                    onClick={() => setShowAddReg(false)}
+                    onClick={() => {
+                        setShowAddReg(false);
+                        document.body.classList.remove('overflow-hidden');
+                    }}
                 />
                 <form onSubmit={handleSubmit(createTransaction)}>
                     <FormControl>

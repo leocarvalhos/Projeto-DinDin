@@ -28,7 +28,7 @@ interface Props {
     setModalEditTransaction: Dispatch<SetStateAction<boolean>>;
     transactions: any;
 }
-export default function EditFormTransaction({
+export default function UpdateTransaction({
     categories,
     getTransactions,
     setModalEditTransaction,
@@ -77,6 +77,7 @@ export default function EditFormTransaction({
                     alt="x"
                     className={styles.x}
                     onClick={(e) => {
+                        document.body.classList.remove('overflow-hidden');
                         setModalEditTransaction(false);
                     }}
                 />

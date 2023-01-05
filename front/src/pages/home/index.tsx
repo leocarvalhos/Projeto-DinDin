@@ -8,7 +8,7 @@ import ITransactions from '../../interfaces/ITransactions.type';
 import { IValue } from '../../interfaces/IValue.type';
 import headers from '../../utils/Token';
 import AddFormTransaction from '../components/AddFormTransaction';
-import EditProfileForm from '../components/EditProfileForm';
+import UpdateProfile from '../components/UpdateProfile';
 import Filter from '../components/Filter';
 import Header from '../components/Header';
 import Resume from '../components/Resume';
@@ -16,7 +16,7 @@ import ResumeMobile from '../components/ResumeMobile';
 import Table from '../components/Table';
 import styles from './styles.module.sass';
 import useOverflow from '../../hooks/useOverflow';
-import EditFormTransaction from '../components/EditFormTransaction';
+import EditFormTransaction from '../components/UpdateTransaction';
 export default function Home() {
     const { overflow }: any = useOverflow();
 
@@ -70,7 +70,7 @@ export default function Home() {
             <main className={styles.main}>
                 {showModal && (
                     <div className={styles.modal}>
-                        <EditProfileForm setShowModal={setShowModal} />
+                        <UpdateProfile setShowModal={setShowModal} />
                     </div>
                 )}
                 {showCoin && (
@@ -112,7 +112,7 @@ export default function Home() {
                             setModalEditTransaction={setModalEditTransaction}
                         />
                     </div>
-                    <Resume value={value} />
+                    <Resume value={value} setShowAddReg={setShowAddReg} />
                 </div>
             </main>
         </>

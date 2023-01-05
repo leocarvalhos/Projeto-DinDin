@@ -27,7 +27,10 @@ export default function Header({ setShowModal, setShowCoin }: Props) {
                         className={styles.coin}
                         width={40}
                         height={40}
-                        onClick={() => setShowCoin(true)}
+                        onClick={() => {
+                            setShowCoin(true);
+                            document.body.classList.add('overflow-hidden');
+                        }}
                     />
                     <Image
                         priority
@@ -36,7 +39,10 @@ export default function Header({ setShowModal, setShowCoin }: Props) {
                         alt="profile"
                         width={50}
                         height={50}
-                        onClick={() => setShowModal(true)}
+                        onClick={() => {
+                            document.body.classList.add('overflow-hidden');
+                            setShowModal(true);
+                        }}
                     />
                     <Link href="/">
                         <Image

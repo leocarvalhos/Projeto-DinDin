@@ -1,4 +1,5 @@
 import { Button } from '@chakra-ui/react';
+import { Dispatch, SetStateAction } from 'react';
 import styles from './styles.module.sass';
 interface Props {
     value: {
@@ -6,8 +7,9 @@ interface Props {
         expenses?: number;
         balance?: number;
     };
+    setShowAddReg: Dispatch<SetStateAction<boolean>>;
 }
-export default function Resume({ value }: Props) {
+export default function Resume({ value, setShowAddReg }: Props) {
     return (
         <main className={styles.container}>
             <section>
@@ -31,7 +33,14 @@ export default function Resume({ value }: Props) {
                     ).toLocaleString('pt-br', { minimumFractionDigits: 2 })}`}</span>
                 </strong>
             </section>
-            <Button>Adicionar Registro</Button>
+            <Button
+                onClick={() => {
+                    setShowAddReg(true);
+                    document.body.classList.add('overflow-hidden');
+                }}
+            >
+                Adicionar Registro
+            </Button>
         </main>
     );
 }

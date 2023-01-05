@@ -25,7 +25,7 @@ import headers from '../../../utils/Token';
 interface Props {
     setShowModal: Dispatch<SetStateAction<boolean>>;
 }
-export default function FormEditProfile({ setShowModal }: Props) {
+export default function UpdateProfile({ setShowModal }: Props) {
     const notify = () => toast.success('Cadastro atualizado com sucesso!');
 
     const { user }: IStorage = useStorage();
@@ -67,6 +67,7 @@ export default function FormEditProfile({ setShowModal }: Props) {
         try {
             await api.put('/user', input, headers(user?.token));
             notify();
+            document.body.classList.remove('overflow-hidden');
             setTimeout(() => {
                 setShowModal(false);
                 reset();
@@ -83,7 +84,10 @@ export default function FormEditProfile({ setShowModal }: Props) {
                     alt="x"
                     className={styles.x}
                     priority
-                    onClick={() => setShowModal(false)}
+                    onClick={() => {
+                        document.body.classList.remove('overflow-hidden');
+                        setShowModal(false);
+                    }}
                 />
                 <h1>Editar Perfil</h1>
 
