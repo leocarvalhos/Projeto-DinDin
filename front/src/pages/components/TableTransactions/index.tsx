@@ -10,7 +10,7 @@ interface Props {
     setModalEditTransaction: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function Tables({
+export default function TableTransactions({
     transactions,
     getTransactions,
     setModalEditTransaction,

@@ -13,7 +13,7 @@ import Filter from '../components/Filter';
 import Header from '../components/Header';
 import Resume from '../components/Resume';
 import ResumeMobile from '../components/ResumeMobile';
-import Table from '../components/Table';
+import Table from '../components/TableTransactions';
 import styles from './styles.module.sass';
 import useOverflow from '../../hooks/useOverflow';
 import EditFormTransaction from '../components/UpdateTransaction';

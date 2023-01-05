@@ -37,9 +37,6 @@
                     display: flex
                     gap: 5px
                     padding: 15px
-                .btnInactive:hover
-                    background: #7978D9
-                    color: #fff
 
                 .btnActive
                     background: #7978D9
@@ -83,7 +80,9 @@
                         @include mixin.fontStyle(variables.$font-default, normal, 500, 1.6rem, 1.8rem)
 
                 .cardBody
-
+                    .btnInactive:hover
+                        background: #7978D9
+                        color: #fff
                     button
 
                         height: 40px
