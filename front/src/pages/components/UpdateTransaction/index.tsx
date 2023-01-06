@@ -36,7 +36,6 @@ export default function UpdateTransaction({
     transactions,
     getOneTransaction,
 }: Props) {
-    const { id }: any = getOneTransaction;
     const notify = () => toast.success('Transação atualizada com sucesso!');
     const { user }: IStorage = useStorage();
     const {
@@ -73,7 +72,11 @@ export default function UpdateTransaction({
 
     async function handleUpdate() {
         try {
-            await api.put(`/transaction/${id}`, input, headers(user?.token));
+            await api.put(
+                `/transaction/${getOneTransaction?.id}`,
+                input,
+                headers(user?.token)
+            );
             notify();
             document.body.classList.remove('overflow-hidden');
             setTimeout(() => {
