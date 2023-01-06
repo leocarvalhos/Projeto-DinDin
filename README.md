@@ -2,15 +2,15 @@ O dindin é um  sistema de gerenciamento monetário.
 
 Nele é possivel realizar as seguintes operações:
 
-Cadastrar usuário.
-Logar.
-Editar perfil do usuário.
-Deslogar.
-Cadastrar transação.
-Listar todas transações.
-Editar transação.
-Filtrar transação por categoria.
-Excluir transação.
+Cadastrar usuário,
+Logar,
+Editar perfil do usuário,
+Deslogar,
+Cadastrar transação,
+Listar todas transações,
+Editar transação,
+Filtrar transação por categoria,
+Excluir transação,
 
 Ferramentas:
 
