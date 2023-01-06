@@ -18,22 +18,25 @@ import useStorage from '../../../hooks/useStorage';
 import ICategory from '../../../interfaces/ICategory.type';
 import { IFormReg } from '../../../interfaces/IFormReg.type';
 import IStorage from '../../../interfaces/IStorage.type';
+import ITransactions from '../../../interfaces/ITransactions.type';
 import schema from '../../../schemas/addTransaction.schema';
 import headers from '../../../utils/Token';
 import styles from './styles.module.sass';
-
 interface Props {
     categories: ICategory[];
     getTransactions(): Promise<void>;
     setModalEditTransaction: Dispatch<SetStateAction<boolean>>;
     transactions: any;
+    getOneTransaction: ITransactions | undefined;
 }
 export default function UpdateTransaction({
     categories,
     getTransactions,
     setModalEditTransaction,
     transactions,
+    getOneTransaction,
 }: Props) {
+    const { id }: any = getOneTransaction;
     const notify = () => toast.success('Transação atualizada com sucesso!');
     const { user }: IStorage = useStorage();
     const {
@@ -45,11 +48,11 @@ export default function UpdateTransaction({
     } = useForm<IFormReg>({ resolver: yupResolver(schema) });
 
     const [input, setInput] = useState<IFormReg>({
-        value: undefined,
-        category_id: '',
+        value: Number(getOneTransaction?.value),
+        category_id: Number(getOneTransaction?.category.id),
         date: new Date(),
-        description: '',
-        type: 'entrada',
+        description: getOneTransaction?.description,
+        type: getOneTransaction?.type,
     });
 
     function handleInputValueChange(values: any) {
@@ -68,6 +71,20 @@ export default function UpdateTransaction({
         setInput({ ...input, [e.currentTarget.name]: e.currentTarget.value });
     }
 
+    async function handleUpdate() {
+        try {
+            await api.put(`/transaction/${id}`, input, headers(user?.token));
+            notify();
+            document.body.classList.remove('overflow-hidden');
+            setTimeout(() => {
+                setModalEditTransaction(false);
+            }, 1200);
+            getTransactions();
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <main className={styles.container}>
             <section>
@@ -76,12 +93,12 @@ export default function UpdateTransaction({
                     src={X}
                     alt="x"
                     className={styles.x}
-                    onClick={(e) => {
+                    onClick={() => {
                         document.body.classList.remove('overflow-hidden');
                         setModalEditTransaction(false);
                     }}
                 />
-                <form>
+                <form onSubmit={handleSubmit(handleUpdate)}>
                     <FormControl>
                         <div className={styles.buttons}>
                             <Button
@@ -145,6 +162,7 @@ export default function UpdateTransaction({
                             <Select
                                 placeholder="Seleciona a categoria"
                                 {...register('category_id')}
+                                value={input.category_id}
                                 style={{ fontSize: '1.4rem', display: 'flex' }}
                                 onChange={handleInputsForm}
                             >
@@ -177,7 +195,6 @@ export default function UpdateTransaction({
                                 min="2000-01-01"
                                 max="3000-12-31"
                                 onChange={handleInputsForm}
-                                placeholder="Ex: 01/01/2023"
                             />
                             {errors.date && (
                                 <FormErrorMessage className={styles.errors}>
@@ -196,6 +213,7 @@ export default function UpdateTransaction({
                                 {...register('description')}
                                 onChange={handleInputsForm}
                                 placeholder="Ex: Material escolar"
+                                value={input.description}
                             />
                             {errors.description && (
                                 <FormErrorMessage className={styles.errors}>

@@ -7,12 +7,14 @@ interface Props {
     transactions: ITransactions[];
     getTransactions(): Promise<void>;
     setModalEditTransaction: Dispatch<SetStateAction<boolean>>;
+    setGetOneTransaction: Dispatch<SetStateAction<ITransactions | undefined>>;
 }
 
 export default function TableTransactions({
     transactions,
     getTransactions,
     setModalEditTransaction,
+    setGetOneTransaction,
 }: Props) {
     return (
         <div className={styles.container}>
@@ -34,6 +36,7 @@ export default function TableTransactions({
                                 return (
                                     <RowTransaction
                                         key={transaction.id}
+                                        setGetOneTransaction={setGetOneTransaction}
                                         transaction={transaction}
                                         getTransactions={getTransactions}
                                         setModalEditTransaction={setModalEditTransaction}

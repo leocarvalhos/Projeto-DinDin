@@ -60,3 +60,82 @@
                 color: variables.$white
                 margin-top: 30px
                 margin-bottom: 25px
+
+@media screen and (min-width: 768px)
+    .container
+        position: fixed
+        top: 0
+        left: 0
+        z-index: 1
+        width: 100vw
+        height: 100vh
+        background: rgba(61, 61, 61, 0.48)
+        @include mixin.flex(column, center, center)
+        section
+            background: #fff
+            width: 30%
+            padding: 0px 20px
+            position: relative
+            border-radius: 20px
+
+            .x
+                position: absolute
+                top: 50px
+                right: 30px
+
+            h1
+                @include mixin.fontStyle(variables.$font-default,normal, 700, 2.4rem, 2.7rem )
+                margin-bottom: 10px
+
+            form
+
+                .label
+                    @include mixin.fontStyle(variables.$font-default, normal, 500, 1.6rem, 2rem )
+                    color: #484848
+                    margin-bottom: 10px
+
+                .buttons
+                    @include mixin.flex(row, center, center)
+                    border-radius: 0
+                    margin-bottom: 15px
+
+                    button
+                        width: 50%
+                        height: 50px
+                        border-radius: 0px
+                        color: white
+                        @include mixin.fontStyle(variables.$font-default, normal, 700, 1.4rem, 1.7rem)
+                        margin-bottom: 15px
+
+                input, select
+                    height: 40px
+                    margin-bottom: 25px
+                    @include mixin.fontStyle(variables.$font-default, normal, 400, 1.6rem, 1.5rem)
+
+                .errors
+                    position: absolute
+                    bottom: 3px
+                    font-size: 1.4rem
+
+                .btn
+                    width: 100%
+                    height: 45px
+                    @include mixin.fontStyle(variables.$font-default, normal, 700, 1.4rem, 1.7rem)
+                    background-color: variables.$violet
+                    color: variables.$white
+                    margin-top: 10px
+                    margin-bottom: 15px
+
+@media screen and (min-width: 1025px)
+    .container
+        section
+            padding: 40px 20px
+
+            .x
+                position: absolute
+                top: 30px
+                right: 30px
+
+            h1
+                @include mixin.fontStyle(variables.$font-default,normal, 700, 2.4rem, 2.7rem )
+                margin-bottom: 40px

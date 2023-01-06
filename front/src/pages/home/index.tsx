@@ -15,8 +15,8 @@ import Resume from '../components/Resume';
 import ResumeMobile from '../components/ResumeMobile';
 import Table from '../components/TableTransactions';
 import styles from './styles.module.sass';
-
-import EditFormTransaction from '../components/UpdateTransaction';
+import UpdateTransaction from '../components/UpdateTransaction';
+import TableTransactions from '../components/TableTransactions';
 export default function Home() {
     const router = useRouter();
     const { user }: IStorage = useStorage();
@@ -27,6 +27,7 @@ export default function Home() {
     const [categories, setCategories] = useState<ICategory[]>([]);
     const [transactions, setTransactions] = useState<ITransactions[]>([]);
     const [modalEditTransaction, setModalEditTransaction] = useState(false);
+    const [getOneTransaction, setGetOneTransaction] = useState<ITransactions>();
     useEffect(() => {
         if (!user?.token) {
             router.replace('/');
@@ -73,7 +74,8 @@ export default function Home() {
                             setTransactions={setTransactions}
                             getTransactions={getTransactions}
                         />
-                        <Table
+                        <TableTransactions
+                            setGetOneTransaction={setGetOneTransaction}
                             transactions={transactions}
                             getTransactions={getTransactions}
                             setModalEditTransaction={setModalEditTransaction}
@@ -106,11 +108,12 @@ export default function Home() {
                 </div>
             )}
             {modalEditTransaction && (
-                <EditFormTransaction
+                <UpdateTransaction
                     setModalEditTransaction={setModalEditTransaction}
                     categories={categories}
                     getTransactions={getTransactions}
                     transactions={transactions}
+                    getOneTransaction={getOneTransaction}
                 />
             )}
         </>

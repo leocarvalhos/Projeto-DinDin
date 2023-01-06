@@ -14,11 +14,13 @@ interface Props {
     transaction: ITransactions;
     getTransactions(): Promise<void>;
     setModalEditTransaction: Dispatch<SetStateAction<boolean>>;
+    setGetOneTransaction: Dispatch<SetStateAction<ITransactions | undefined>>;
 }
 export default function RowTransaction({
     transaction,
     getTransactions,
     setModalEditTransaction,
+    setGetOneTransaction,
 }: Props) {
     const [deleteTransaction, setDeleteTransaction] = useState(false);
 
@@ -46,6 +48,7 @@ export default function RowTransaction({
                     onClick={() => {
                         document.body.classList.add('overflow-hidden');
                         setModalEditTransaction(true);
+                        setGetOneTransaction(transaction);
                     }}
                 />
 
