@@ -1,4 +1,4 @@
-Confira o Dindin com seus próprios olhos. https://dindin-amber.vercel.app/
+Confira o Dindin com seus próprios olhos. <a>https://dindin-amber.vercel.app/</a>
 
 O dindin é um  sistema de gerenciamento monetário.
 
