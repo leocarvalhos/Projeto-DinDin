@@ -1,6 +1,6 @@
 
 Confira o Dindin com seus próprios olhos. Pressione Ctrl no seu teclado e clique no link para abrir o DinDin em outra aba.
-<a target="_blank" href="https://dindin-amber.vercel.app/">Projeto DinDin</a>
+https://dindin-amber.vercel.app/
 
 O dindin é um  sistema de gerenciamento monetário.
 
