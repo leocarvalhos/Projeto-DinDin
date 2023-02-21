@@ -1,3 +1,5 @@
+Confira o Dindin com seus próprios olhos. https://dindin-amber.vercel.app/
+
 O dindin é um  sistema de gerenciamento monetário.
 
 Nele é possivel realizar as seguintes operações:
