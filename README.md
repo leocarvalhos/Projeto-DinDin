@@ -1,4 +1,4 @@
-Confira o Dindin com seus próprios olhos. <a href="https://dindin-amber.vercel.app/" target="_blank">Projeto DinDin</a>
+Confira o Dindin com seus próprios olhos. <a target="_blank" href="https://dindin-amber.vercel.app/">Projeto DinDin</a>
 
 O dindin é um  sistema de gerenciamento monetário.
 
